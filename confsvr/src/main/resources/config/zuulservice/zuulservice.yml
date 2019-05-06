@@ -1,0 +1,22 @@
+#zuul.ignored-services: "*"
+zuul.prefix:  /api
+zuul.routes.authenticationservice: /auth/**
+zuul.routes.roomservice: /rooms/**
+zuul.routes.archivesbusinessservice: /business/**
+zuul.routes.businesstemplateservice: /template/**
+zuul.routes.joincorpservice: /corp/**
+#zuul.routes.licensestatic.path: /licensestatic/**
+#zuul.routes.licensestatic.url:  http://licenseservice-static:8081
+#zuul.routes.licensestatic.serviceId: licensestatic
+#zuul.routes.licensestatic.ribbon.listOfServers: http://licenseservice-static1:8081, http://licenseservice-static2:8082
+#ribbon.eureka.enabled: false
+zuul.sensitiveHeaders: Cookie,Set-Cookie
+zuul.debug.request: true
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+zuul.host.connect-timeout-millis: 10000
+zuul.host.socket-timeout-millis: 60000
+ribbon.ReadTimeout: 10000
+ribbon.ConnectTimeout: 10000
+#hystrix.command.licensingservice.execution.isolation.thread.timeoutInMilliseconds: 2
+#licensingservice.ribbon.ReadTimeout: 2
+signing.key: "345345fsdfsf5345"

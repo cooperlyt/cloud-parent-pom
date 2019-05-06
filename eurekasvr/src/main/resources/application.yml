@@ -1,0 +1,20 @@
+#Default port is 8761
+server:
+  port: 8761
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+    peer-node-read-timeout-ms: 60000
+  serviceUrl:
+    defaultZone: http://discovery:8761
+
+#Setting logging levels
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.coopersoft: DEBUG
