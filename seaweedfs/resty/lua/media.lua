@@ -232,6 +232,6 @@ if(process_type == "img") then
     process_img(file_volumn,file_id,file_size,file_url)
 elseif(process_type == "audio")then
     process_audio(file_volumn,file_id,file_size,file_url)
-elseif(process_type == "pdf") then
+else
     req_orig_file(file_url)
 end

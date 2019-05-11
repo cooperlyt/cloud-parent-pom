@@ -25,6 +25,12 @@ public class User implements UserDetails, Serializable {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Column(nullable = true)
+    private String org;
+
+    @Column(nullable = true)
+    private String orgname;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "username", nullable = false, referencedColumnName = "username"),
@@ -88,5 +94,21 @@ public class User implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
+    }
+
+    public String getOrgname() {
+        return orgname;
+    }
+
+    public void setOrgname(String orgname) {
+        this.orgname = orgname;
     }
 }

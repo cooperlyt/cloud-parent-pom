@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t coopersoft/seaweedfs-media-service:stable2 .
+docker build -t coopersoft/seaweedfs-media-service:stable4 .

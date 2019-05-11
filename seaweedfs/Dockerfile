@@ -14,11 +14,13 @@ ENV WEEDFS_VERSION='0.90'
 
 ENV PKGNAME=graphicsmagick
 ENV PKGVER=1.3.31
-ENV PKGSOURCE=https://jaist.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/$PKGVER/GraphicsMagick-$PKGVER.tar.gz
+#ENV PKGSOURCE=https://jaist.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/$PKGVER/GraphicsMagick-$PKGVER.tar.gz
+ENV PKGSOURCE=https://versaweb.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/$PKGVER/GraphicsMagick-$PKGVER.tar.gz
+
 
 # Docker Build Arguments
 ARG RESTY_HTTP_VERSION="0.13"
-ARG RESTY_VERSION="1.11.2.3"
+ARG RESTY_VERSION="1.13.6.2"
 ARG RESTY_OPENSSL_VERSION="1.0.2k"
 ARG RESTY_PCRE_VERSION="8.39"
 ARG RESTY_J="1"
@@ -27,7 +29,8 @@ ARG RESTY_CONFIG_OPTIONS="\
     --with-http_addition_module \
     --with-pcre-jit \
     "
-
+# for old cpu not sse 4.2
+#  --with-luajit-xcflags='-mno-sse4.2' \
 
 #--with-luajit-xcflags='-mno-sse4.2'
 

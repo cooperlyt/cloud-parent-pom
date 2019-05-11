@@ -87,26 +87,28 @@ DROP TABLE IF EXISTS _user;
 
 CREATE TABLE role
 (
-	authority varchar(32) NOT NULL,
-	name varchar(32) NOT NULL,
-	PRIMARY KEY (authority)
+    authority varchar(32) NOT NULL,
+    name varchar(32) NOT NULL,
+    PRIMARY KEY (authority)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
 CREATE TABLE user_role
 (
-	username varchar(32) NOT NULL,
-	authority varchar(32) NOT NULL
+    username varchar(32) NOT NULL,
+    authority varchar(32) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
 CREATE TABLE _user
 (
-	username varchar(32) NOT NULL,
-	password varchar(512) NOT NULL,
-	name varchar(64) NOT NULL,
-	enabled boolean NOT NULL,
-	PRIMARY KEY (username)
+    username varchar(32) NOT NULL,
+    password varchar(512) NOT NULL,
+    name varchar(64) NOT NULL,
+    enabled boolean NOT NULL,
+    org varchar(32),
+    orgname varchar(128),
+    PRIMARY KEY (username)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
@@ -114,27 +116,25 @@ CREATE TABLE _user
 /* Create Foreign Keys */
 
 ALTER TABLE user_role
-	ADD FOREIGN KEY (authority)
-REFERENCES role (authority)
-ON UPDATE RESTRICT
-ON DELETE RESTRICT
+    ADD FOREIGN KEY (authority)
+        REFERENCES role (authority)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
 ;
 
 
 ALTER TABLE user_role
-	ADD FOREIGN KEY (username)
-REFERENCES _user (username)
-ON UPDATE RESTRICT
-ON DELETE RESTRICT
+    ADD FOREIGN KEY (username)
+        REFERENCES _user (username)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
 ;
-
-
 
 
 
 insert into role(authority, name) VALUES ('USER','普通用户');
 insert into role(authority,name) VALUES('ADMIN','管理员');
-insert into role(authority, name) VALUES ('CORP','从业机构');
+insert into role(authority, name) VALUES ('CORP-ARCHIVE','从业机构档案员');
 
 
 
@@ -142,8 +142,14 @@ insert into role(authority, name) VALUES ('CORP','从业机构');
 insert into _user(username,password,name,enabled) VALUES ('root','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','开发商管理员', true);
 insert into _user(username,password,name,enabled) VALUES ('test','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','测试用户', true);
 
+
+insert into _user(username,password,name,enabled,org,orgname)
+    VALUES('corp1','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','机构档案员',true,'C1','测试建设单位1');
+
+
 insert into user_role(authority,username) VALUES ('USER','root');
 insert into user_role(authority,username) VALUES ('ADMIN','root');
 
 insert into user_role(authority,username) VALUES ('USER','test');
+insert into user_role(username, authority) VALUES ('corp1','CORP-ARCHIVE');
 
