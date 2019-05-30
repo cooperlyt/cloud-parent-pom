@@ -131,25 +131,29 @@ ALTER TABLE user_role
 ;
 
 
+insert into role(authority, name) VALUES ('GOV','政府机构');
 
-insert into role(authority, name) VALUES ('USER','普通用户');
+insert into role(authority, name) VALUES ('CORP','从业机构');
+
 insert into role(authority,name) VALUES('ADMIN','管理员');
-insert into role(authority, name) VALUES ('CORP-ARCHIVE','从业机构档案员');
+
+insert into role(authority, name) VALUES ('ARCHIVE','档案员');
 
 
 
 -- pasword: dgsoft
 insert into _user(username,password,name,enabled) VALUES ('root','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','开发商管理员', true);
-insert into _user(username,password,name,enabled) VALUES ('test','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','测试用户', true);
 
 
 insert into _user(username,password,name,enabled,org,orgname)
     VALUES('corp1','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','机构档案员',true,'C1','测试建设单位1');
 
-
-insert into user_role(authority,username) VALUES ('USER','root');
+insert into user_role(authority,username) VALUES ('GOV','root');
+insert into user_role(authority,username) VALUES ('ARCHIVE','root');
 insert into user_role(authority,username) VALUES ('ADMIN','root');
 
-insert into user_role(authority,username) VALUES ('USER','test');
-insert into user_role(username, authority) VALUES ('corp1','CORP-ARCHIVE');
+insert into user_role(authority,username) VALUES ('CORP','corp1');
+insert into user_role(authority,username) VALUES ('ARCHIVE','corp1');
+insert into user_role(authority,username) VALUES ('ADMIN','corp1');
+
 

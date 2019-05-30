@@ -37,6 +37,11 @@ ARG RESTY_CONFIG_OPTIONS="\
 # These are not intended to be user-specified
 ARG _RESTY_CONFIG_DEPS="--with-openssl=/tmp/openssl-${RESTY_OPENSSL_VERSION} --with-pcre=/tmp/pcre-${RESTY_PCRE_VERSION}"
 
+
+RUN echo http://mirrors.ustc.edu.cn/alpine/v3.6/main > /etc/apk/repositories; \
+    echo http://mirrors.ustc.edu.cn/alpine/v3.6/community >> /etc/apk/repositories
+
+
 RUN \
     apk add --no-cache  --virtual build-dependencies --update \
         build-base \

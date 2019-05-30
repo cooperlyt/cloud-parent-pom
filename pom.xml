@@ -29,9 +29,16 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.4.10</version>
         <configuration>
-        <baseImage>java</baseImage>
-        <imageName>example</imageName>
-      </configuration>
+          <baseImage>java</baseImage>
+          <imageName>example</imageName>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
