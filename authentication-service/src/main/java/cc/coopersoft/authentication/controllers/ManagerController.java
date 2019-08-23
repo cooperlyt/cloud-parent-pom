@@ -26,10 +26,10 @@ public class ManagerController {
         }
     }
 
-    @RequestMapping(value = "/list/users", method = RequestMethod.GET)
-    public List<User> getUserList(){
-        return userService.
-    }
+//    @RequestMapping(value = "/list/users", method = RequestMethod.GET)
+//    public List<User> getUserList(){
+//        //return userService.
+//    }
 
 
 
