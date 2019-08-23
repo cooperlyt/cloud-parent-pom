@@ -8,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,8 @@ import java.util.Map;
 @EnableDiscoveryClient
 @EnableAuthorizationServer
 public class Application {
+
+
 
     @RequestMapping(value = {"/user"} ,produces = "application/json")
     public Map<String,Object> user(OAuth2Authentication user){
@@ -35,6 +34,7 @@ public class Application {
     public String encodeBCrypt(@PathVariable("text") String text){
         return "{\"code\":\"" + new BCryptPasswordEncoder().encode(text) + "\"}";
     }
+
 
     public static void main(String[] args){
         SpringApplication.run(Application.class,args);
