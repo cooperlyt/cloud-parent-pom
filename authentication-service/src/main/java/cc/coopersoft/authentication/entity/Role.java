@@ -3,17 +3,32 @@ package cc.coopersoft.authentication.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Role implements GrantedAuthority {
+    public enum Category{
+        DEV(), //DEVELOPER
+        HG() //HOUSE GOV
+
+    }
 
     @Id
     @Column(nullable = false, unique = true)
+    @NotBlank
+    @Size(max = 32)
     private String authority;
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(max = 32)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Category category;
 
     public String getName() {
         return name;
@@ -30,6 +45,14 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return this.authority;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

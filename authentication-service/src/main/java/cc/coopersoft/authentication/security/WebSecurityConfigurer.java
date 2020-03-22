@@ -1,6 +1,6 @@
 package cc.coopersoft.authentication.security;
 
-import cc.coopersoft.authentication.dto.UserServiceDetail;
+import cc.coopersoft.authentication.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +43,15 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 //    }
 
     @Autowired
-    UserServiceDetail userServiceDetail;
+    private UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceDetail).passwordEncoder(passwordEncoder());
-
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//        auth.inMemoryAuthentication()
+//                .withUser("root")
+//                .password(passwordEncoder().encode("register@root2019"))
+//                .roles("ROOT");
 //        auth
 //                .inMemoryAuthentication().passwordEncoder(passwordEncoder())
 //                .withUser("temp").password(passwordEncoder().encode("password")).roles("USER")

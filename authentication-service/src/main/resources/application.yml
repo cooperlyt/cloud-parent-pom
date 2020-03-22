@@ -3,8 +3,8 @@ logging:
   level:
     com.netflix: WARN
     org.springframework.web: WARN
-    com.coopersoft: DEBUG
-    org.springframework.security: DEBUG
+    com.coopersoft: WARN
+    org.springframework.security: WARN
 
 eureka:
   instance:

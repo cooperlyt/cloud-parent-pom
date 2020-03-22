@@ -28,6 +28,7 @@ ARG RESTY_CONFIG_OPTIONS="\
     --with-http_stub_status_module \
     --with-http_addition_module \
     --with-pcre-jit \
+    --with-luajit-xcflags='-mno-sse4.2' \
     "
 # for old cpu not sse 4.2
 #  --with-luajit-xcflags='-mno-sse4.2' \

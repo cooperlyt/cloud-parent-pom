@@ -60,6 +60,16 @@ public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .withClient("archives")
                 .secret(new BCryptPasswordEncoder().encode("thisissecret"))
                 .authorizedGrantTypes("refresh_token","password","client_credentials")
+                .scopes("webclient","mobileclient")
+        .and()
+        .withClient("register")
+        .secret(new BCryptPasswordEncoder().encode("thisissecret"))
+        .authorizedGrantTypes("refresh_token","password","client_credentials")
+        .scopes("webclient","mobileclient")
+        .and()
+        .withClient("attr")
+                .secret(new BCryptPasswordEncoder().encode("outsidesecret"))
+                .authorizedGrantTypes("refresh_token","password","client_credentials")
                 .scopes("webclient","mobileclient");
     }
 

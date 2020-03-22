@@ -1,0 +1,7 @@
+signing:
+  key: "345345fsdfsf5345"
+
+ugly:
+  register:
+    service:
+      url: http://contractregisterservice:9901/api/

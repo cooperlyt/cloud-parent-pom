@@ -1,0 +1,46 @@
+#Setting the logging levels for the service
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.coopersoft: DEBUG
+    org.springframework.security: DEBUG
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+server:
+  servlet:
+    contextPath: /auth
+
+spring:
+  datasource:
+    testWhileIdle: "true"
+    validationQuery: "SELECT 1"
+    url: "jdbc:mysql://127.0.0.1:3306/CLOUD_AUTH?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
+    username: "root"
+    password: "5257mq"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    platform: mysql
+    initialization-mode: always
+
+  jpa:
+    database: "MYSQL"
+    show-sql: "true"
+    hibernate:
+      naming:
+        physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+    properties:
+      hibernate:
+        ddl-auto: "none"
+        enable_lazy_load_no_trans: true
+        dialect: "org.hibernate.dialect.MySQL5Dialect"
+
+
+signing.key: "345345fsdfsf5345"

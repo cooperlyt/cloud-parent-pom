@@ -21,6 +21,7 @@
     <module>eurekasvr</module>
     <module>zuulsvr</module>
     <module>authentication-service</module>
+      <module>uid-generator-service</module>
   </modules>
   <build>
     <plugins>

@@ -1,114 +1,38 @@
 package cc.coopersoft.authentication.entity;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
 @Table(name = "_user")
-public class User implements UserDetails, Serializable {
+public class User extends UserInfo implements UserDetails, Serializable {
 
-    @Id
-    @Column(nullable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private boolean enabled;
-
-    @Column(nullable = true)
-    private String org;
-
-    @Column(nullable = true)
-    private String orgname;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "username", nullable = false, referencedColumnName = "username"),
             inverseJoinColumns = @JoinColumn(name = "authority", nullable = false))
-    private List<Role> authorities;
+    private Collection<Role> authorities = new HashSet<>();
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAuthorities(List<Role> authorities) {
+    public void setAuthorities(Collection<Role> authorities) {
         this.authorities = authorities;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<Role> getAuthorities() {
         return authorities;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
+    public User() {
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
-
-    public String getOrg() {
-        return org;
-    }
-
-    public void setOrg(String org) {
-        this.org = org;
-    }
-
-    public String getOrgname() {
-        return orgname;
-    }
-
-    public void setOrgname(String orgname) {
-        this.orgname = orgname;
+    public User(UserInfo userInfo) {
+        super(userInfo);
     }
 }

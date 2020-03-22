@@ -1,7 +1,7 @@
 package cc.coopersoft.authentication.security;
 
-import cc.coopersoft.authentication.dto.UserServiceDetail;
 import cc.coopersoft.authentication.entity.User;
+import cc.coopersoft.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -14,17 +14,16 @@ import java.util.Map;
 public class JWTTokenEnhancer implements TokenEnhancer {
 
     @Autowired
-    private UserServiceDetail userServiceDetail;
+    private UserService userServiceDetail;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
 
 
-        User user = userServiceDetail.getUser(authentication.getName());
+        User user = userServiceDetail.findUser(authentication.getName());
         additionalInfo.put("name", user.getName());
         additionalInfo.put("org", user.getOrg());
-        additionalInfo.put("orgName",user.getOrgname());
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
