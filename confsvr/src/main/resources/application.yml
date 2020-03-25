@@ -7,5 +7,5 @@ spring:
     config:
       server:
         native:
-          searchLocations: classpath:config/,classpath:config/roomservice,classpath:config/zuulservice,classpath:config/authenticationservice,classpath:config/businesstemplateservice,classpath:config/archivesbusinessservice,classpath:config/joincorpservice,classpath:config/moneyaccountservice,classpath:config/moneybankservice,classpath:config/moneycorrectservice,classpath:config/moneymodifyservice,classpath:config/moneypayservice,classpath:config/developerservice
+          searchLocations: classpath:config/,classpath:config/roomservice,classpath:config/zuulservice,classpath:config/authenticationservice,classpath:config/businesstemplateservice,classpath:config/archivesbusinessservice,classpath:config/joincorpservice,classpath:config/moneyaccountservice,classpath:config/moneybankservice,classpath:config/moneycorrectservice,classpath:config/moneymodifyservice,classpath:config/moneypayservice,classpath:config/developerservice,classpath:config/construct-attach-corp,classpath:config/construct-project
 
