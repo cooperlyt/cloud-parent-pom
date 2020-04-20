@@ -1,7 +1,4 @@
-security:
-  oauth2:
-    resource:
-      userInfoUri: http://192.168.1.21:8901/auth/user
+#开发环境被依赖下使用的参数, 本地开发测试时不使用此配置,请使用本的的 test 配置来改变依赖服务的地址
 
 #Setting the logging levels for the service
 logging:
@@ -10,18 +7,6 @@ logging:
     org.springframework.web: WARN
     cc.coopersoft: DEBUG
 
-
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://192.168.1.21:8761/eureka/
-
-signing:
-  key: "345345fsdfsf5345"
 
 spring:
   datasource:

@@ -2,8 +2,10 @@ spring:
   application:
     name: authenticationservice
   profiles:
-    active: dev
+    active: test
   cloud:
     config:
       enabled: true
 
+server:
+  port: 8091

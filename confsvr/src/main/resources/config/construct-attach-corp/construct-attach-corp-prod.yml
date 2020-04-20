@@ -1,3 +1,5 @@
+#性能参数调节  必要的地址设置
+
 spring:
   datasource:
     initialization-mode: NEVER

@@ -1,6 +1,7 @@
 package cc.coopersoft.authentication.services;
 
 import cc.coopersoft.authentication.entity.User;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,14 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
+    @Ignore
     public void loadUserByUsername() {
        assertEquals(userService.loadUserByUsername("root").getUsername(),"root");
     }
 
 
     @Test
+    @Ignore
     public void addDeveloperRoot() {
         User user = new User();
         user.setUsername("new1");
@@ -35,6 +38,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Ignore
     public void userIsExists() {
         User user = new User();
         user.setUsername("root");

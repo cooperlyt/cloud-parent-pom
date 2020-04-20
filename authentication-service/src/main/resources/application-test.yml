@@ -13,7 +13,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
+      defaultZone: http://192.168.1.21:8761/eureka/
 
 server:
   servlet:
@@ -25,7 +25,7 @@ spring:
     validationQuery: "SELECT 1"
     url: "jdbc:mysql://127.0.0.1:3306/CLOUD_AUTH?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
     username: "root"
-    password: "5257mq"
+    password: "5257mq99"
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     platform: mysql
     initialization-mode: always
