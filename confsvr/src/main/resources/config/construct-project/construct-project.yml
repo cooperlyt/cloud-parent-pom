@@ -26,7 +26,7 @@ spring:
             rmqnamesrv:9876
       bindings:
         output:
-          destination: corpChangeTopic
+          destination: projectChangeTopic
           content-type: application/json
   datasource:
     initialization-mode: NEVER
