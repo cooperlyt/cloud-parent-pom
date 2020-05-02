@@ -21,7 +21,7 @@
     <module>eurekasvr</module>
     <module>zuulsvr</module>
     <module>authentication-service</module>
-      <module>uid-generator-service</module>
+    <module>camundasvr</module>
   </modules>
   <build>
     <plugins>
