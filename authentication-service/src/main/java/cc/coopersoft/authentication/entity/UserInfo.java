@@ -37,8 +37,6 @@ public class UserInfo {
     @NotBlank
     private String phone;
 
-    @Size(max = 32)
-    private String org;
 
     public UserInfo() {
     }
@@ -117,11 +115,4 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public String getOrg() {
-        return org;
-    }
-
-    public void setOrg(String org) {
-        this.org = org;
-    }
 }

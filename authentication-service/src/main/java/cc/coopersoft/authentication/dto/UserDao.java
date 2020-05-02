@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserDao extends JpaRepository<User, Long> {
+public interface UserDao extends JpaRepository<User, String> {
 
     Optional<User> findByUsername(String username);
+
+    Optional<User> findByEnabledIsTrueAndUsername(String username);
 
     Optional<User> findByUsernameOrEmailOrPhone(String userName, String email, String phone);
 

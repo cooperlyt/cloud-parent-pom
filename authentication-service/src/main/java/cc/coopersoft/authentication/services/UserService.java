@@ -1,12 +1,8 @@
 package cc.coopersoft.authentication.services;
 
-import cc.coopersoft.authentication.dto.RoleDao;
 import cc.coopersoft.authentication.dto.UserDao;
 import cc.coopersoft.authentication.entity.User;
-import cc.coopersoft.authentication.entity.UserInfo;
 import cc.coopersoft.authentication.exception.PasswordErrorException;
-import cc.coopersoft.authentication.exception.UserExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,30 +10,34 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserDao userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDao userRepository;
 
-    @Autowired
-    private RoleDao roleRepository;
+    public UserService(PasswordEncoder passwordEncoder, UserDao userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> _user = userRepository.findByUsername(username);
+
         if (_user.isPresent()){
             return _user.get();
         }else{
             throw new UsernameNotFoundException("user not found by :" + username);
         }
+    }
+
+    public boolean userIsExists(String userName){
+        return userRepository.existsById(userName);
     }
 
     public User findUser(String userName){
@@ -62,23 +62,5 @@ public class UserService implements UserDetailsService {
         userRepository.save(user.get());
     }
 
-
-    @Transactional
-    public void addDeveloperRoot(UserInfo user){
-        if (userIsExists(user)){
-            throw new UserExistsException("用户已经存在");
-        }
-
-        User developerUser = new User(user);
-        developerUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        developerUser.getAuthorities().add(roleRepository.findById("DEVELOPER").get());
-        developerUser.getAuthorities().add(roleRepository.findById("ATTACH_ROOT").get());
-
-        userRepository.save(developerUser);
-    }
-
-    public boolean userIsExists(UserInfo user){
-        return userRepository.existsByUsernameOrPhone(user.getUsername(),user.getPhone());
-    }
 
 }

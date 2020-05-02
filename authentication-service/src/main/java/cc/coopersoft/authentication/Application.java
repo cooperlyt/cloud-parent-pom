@@ -14,26 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
-@RestController
 @EnableResourceServer
 @EnableDiscoveryClient
 @EnableAuthorizationServer
 public class Application {
-
-
-
-    @RequestMapping(value = {"/user"} ,produces = "application/json")
-    public Map<String,Object> user(OAuth2Authentication user){
-        Map<String,Object> userInfo = new HashMap<>();
-        userInfo.put("user",user.getUserAuthentication().getPrincipal());
-        userInfo.put("authorities",AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
-        return userInfo;
-    }
-
-    @RequestMapping(value = "/encode/bcrypt/{text}",method = RequestMethod.GET)
-    public String encodeBCrypt(@PathVariable("text") String text){
-        return "{\"code\":\"" + new BCryptPasswordEncoder().encode(text) + "\"}";
-    }
 
 
     public static void main(String[] args){

@@ -11,9 +11,10 @@ public class ManagerAuthorizationConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers().antMatchers("/encode/bcrypt/**")//
-                .and().authorizeRequests()//
+        http.requestMatchers().antMatchers("/encode/bcrypt/**")
+                .and().authorizeRequests()
                 .antMatchers("/encode/bcrypt/**","/auth/encode/bcrypt/**").permitAll();
+
 
 //
 //        http
