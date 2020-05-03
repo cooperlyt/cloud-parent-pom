@@ -18,6 +18,14 @@ public interface UserDao extends JpaRepository<User, String> {
 
     boolean existsByUsernameOrPhone(String userName, String phone);
 
+    List<User> findDistinctByAuthoritiesAuthority(String authority);
+
+    boolean existsByPhone(String phone);
+
+    boolean existsByEmail(String email);
+
+
+
 //    List<User> findAllBy
 
 }

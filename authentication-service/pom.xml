@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.1.12.RELEASE</version>
     </parent>
 
 
@@ -142,8 +142,16 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
-                    <exclude>*.jks</exclude>
+                    <exclude>**/*.jks</exclude>
                 </excludes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.jks</include>
+                </includes>
             </resource>
         </resources>
 
@@ -204,7 +212,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <addResources>true</addResources>
+                    <addResources>false</addResources>
                 </configuration>
             </plugin>
         </plugins>

@@ -4,6 +4,7 @@ import cc.coopersoft.authentication.services.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -27,16 +28,19 @@ public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     private final TokenEnhancer jwtTokenEnhancer;
 
+    private final PasswordEncoder passwordEncoder;
+
     public JWTOAuth2Config(AuthenticationManager authenticationManager,
                            UserService userDetailsService,
                            TokenStore tokenStore,
                            JwtAccessTokenConverter jwtAccessTokenConverter,
-                           TokenEnhancer jwtTokenEnhancer) {
+                           TokenEnhancer jwtTokenEnhancer, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.tokenStore = tokenStore;
         this.jwtAccessTokenConverter = jwtAccessTokenConverter;
         this.jwtTokenEnhancer = jwtTokenEnhancer;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -59,17 +63,17 @@ public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
 
         clients.inMemory()
                 .withClient("archives")
-                .secret(new BCryptPasswordEncoder().encode("thisissecret"))
+                .secret(passwordEncoder.encode("thisissecret"))
                 .authorizedGrantTypes("refresh_token","password","client_credentials")
                 .scopes("webclient","mobileclient")
         .and()
             .withClient("register")
-            .secret(new BCryptPasswordEncoder().encode("thisissecret"))
+            .secret(passwordEncoder.encode("thisissecret"))
             .authorizedGrantTypes("refresh_token","password","client_credentials")
             .scopes("webclient","mobileclient")
         .and()
             .withClient("attr")
-                .secret(new BCryptPasswordEncoder().encode("outsidesecret"))
+                .secret(passwordEncoder.encode("outsidesecret"))
                 .authorizedGrantTypes("refresh_token","password","client_credentials")
                 .scopes("webclient","mobileclient");
     }

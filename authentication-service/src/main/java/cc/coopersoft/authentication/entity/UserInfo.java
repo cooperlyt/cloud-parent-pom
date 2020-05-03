@@ -1,5 +1,9 @@
 package cc.coopersoft.authentication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -10,6 +14,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public class UserInfo {
 
+
     @Id
     @Column(nullable = false, unique = true)
     @NotBlank
@@ -19,6 +24,7 @@ public class UserInfo {
     @Column(nullable = false)
     @NotBlank
     @Size(max = 64)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(nullable = false)
@@ -115,4 +121,18 @@ public class UserInfo {
         this.phone = phone;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        return username.equals(userInfo.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
 }

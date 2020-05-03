@@ -1,33 +1,6 @@
-#所有参数 性能参数的默认值 依赖服务的默认地址
-
-security:
-  oauth2:
-    resource:
-      userInfoUri: http://authenticationservice:8901/auth/user
-
-
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://eurekaserver:8761/eureka/
-
-
+#性能参数调节  必要的地址设置
 
 spring:
-  cloud:
-    stream:
-      rocketmq:
-        binder:
-          name-server:
-            rmqnamesrv:9876
-      bindings:
-        output:
-          destination: projectChangeTopic
-          content-type: application/json
   datasource:
     initialization-mode: NEVER
     testWhileIdle: "true"
@@ -35,13 +8,8 @@ spring:
     url: "jdbc:mysql://database:3306/CONSTRUCT?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
     username: "root"
     password: "{cipher}4788dfe1ccbe6485934aec2ffeddb06163ea3d616df5fd75be96aadd4df1da91"
-    driver-class-name: "com.mysql.cj.jdbc.Driver"
   jpa:
-    database: "MYSQL"
     show-sql: "false"
-    hibernate:
-      naming:
-        physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
     properties:
       hibernate:
         ddl-auto: "none"
@@ -59,4 +27,3 @@ uid:
     boostPower: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
     paddingFactor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
     #scheduleInterval: 60    # 默认:不配置此项, 即不实用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
-
