@@ -48,23 +48,7 @@ public class MasterController {
         return userService.addUser(user).getUsername();
     }
 
-    @RequestMapping(value = "/user/exists/{username}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public boolean userIsExists(@PathVariable("username") String username){
-        return userService.userIsExists(username);
-    }
 
-    @RequestMapping(value = "/user/exists/phone/{phone}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public boolean phoneIsExists(@PathVariable("phone") String phone){
-        return userService.phoneIsExists(phone);
-    }
-
-    @RequestMapping(value = "/user/exists/email/{email}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public boolean emailIsExists(@PathVariable("email") String email){
-        return userService.emailIsExists(email);
-    }
 
     @RequestMapping(value = "/user/del/{username}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)

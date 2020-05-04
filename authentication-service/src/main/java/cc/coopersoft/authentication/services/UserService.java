@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,13 +34,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> _user = userRepository.findByUsername(username);
-
-        if (_user.isPresent()){
-            return _user.get();
-        }else{
-            throw new UsernameNotFoundException("user not found by :" + username);
-        }
+        return userRepository.findByUsername(username).orElseThrow(() ->  new UsernameNotFoundException("user not found by :" + username));
     }
 
     public List<User> listUsers(){
@@ -59,58 +54,59 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Role> listRoles(String userName){
-        return userRepository.findById(userName).map(u -> u.getAuthorities().stream().filter(r -> !r.isSystem()).collect(Collectors.toList())).orElseThrow(() -> {throw new IllegalArgumentException("user not found!");});
+        return userRepository.findById(userName).map(u -> u.getAuthorities().stream().filter(r -> !r.isSystem()).collect(Collectors.toList())).orElseThrow(() ->  new IllegalArgumentException("user not found!"));
     }
 
+    @Transactional
     public User addUser(User user){
         user.getAuthorities().add(roleService.getMasterRole());
         user.setPassword(passwordEncoder.encode(user.getPhone()));
         return userRepository.save(user);
     }
 
+    @Transactional
     public void delUser(String username){
         userRepository.findById(username).ifPresent(u -> userRepository.delete(u));
     }
 
+    @Transactional
     public void enableUser(String username, boolean enable){
-        userRepository.findById(username).ifPresentOrElse((u) -> {
-            u.setEnabled(enable);
-            userRepository.save(u);
-        }, () -> {throw new IllegalArgumentException("user not found");});
+        User u = findUser(username);
+        u.setEnabled(enable);
+        userRepository.save(u);
     }
 
+    @Transactional
     public void resetPassword(String username){
-        userRepository.findById(username).ifPresentOrElse((u) -> {u.setPassword(passwordEncoder.encode(u.getPhone()));},
-                () -> {throw new IllegalArgumentException("user not found");});
+        User u = findUser(username);
+        u.setPassword(passwordEncoder.encode(u.getPhone()));
+        userRepository.save(u);
     }
 
+    @Transactional
     public void addRole(String username, String role){
-        userRepository.findById(username).ifPresentOrElse((u) -> {
-            roleService.getRoleByName(role).ifPresentOrElse((r) -> {
-                if (r.isSystem()){
-                    throw new IllegalArgumentException("system role can't grant!");
-                }
-                u.getAuthorities().add(r);
-                userRepository.save(u);
-            }, () -> {throw new IllegalArgumentException("role not found");});
-        }, () -> {throw new IllegalArgumentException("user not found");});
-    }
-
-    public void removeRole(String username, String role){
-        userRepository.findById(username).ifPresentOrElse((u) -> {
-            u.getAuthorities().removeAll(u.getAuthorities().stream().filter(r -> !r.isSystem() && r.getAuthority().equals(role)).collect(Collectors.toSet()));
+        User u = findUser(username);
+        roleService.getRoleByName(role).ifPresentOrElse((r) -> {
+            if (r.isSystem()){
+                throw new IllegalArgumentException("system role can't grant!");
+            }
+            u.getAuthorities().add(r);
             userRepository.save(u);
-            }, () -> {throw new IllegalArgumentException("user not found");});
+        }, () -> {throw new IllegalArgumentException("role not found");});
     }
 
-    public User findUser(String userName){
-        Optional<User> _user = userRepository.findByUsername(userName);
-        if (_user.isEmpty()){
-            throw new IllegalArgumentException();
-        }
-        return _user.get();
+    @Transactional
+    public void removeRole(String username, String role){
+        User u = findUser(username);
+        u.getAuthorities().removeAll(u.getAuthorities().stream().filter(r -> !r.isSystem() && r.getAuthority().equals(role)).collect(Collectors.toSet()));
+        userRepository.save(u);
     }
 
+    public User findUser(String username){
+        return userRepository.findByUsername(username).orElseThrow(() ->  new UsernameNotFoundException("user not found by :" + username));
+    }
+
+    @Transactional
     public void changePassword(String oldPassword, String newPassword){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

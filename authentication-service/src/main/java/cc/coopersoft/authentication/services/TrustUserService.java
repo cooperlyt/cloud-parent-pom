@@ -4,6 +4,7 @@ import cc.coopersoft.authentication.dto.UserDao;
 import cc.coopersoft.authentication.entity.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TrustUserService {
@@ -20,6 +21,7 @@ public class TrustUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public User addUser(String type, String org, User user, boolean manager){
         if (userRepository.existsById(user.getUsername())){
             throw new IllegalArgumentException("use is exists");
@@ -34,6 +36,7 @@ public class TrustUserService {
 
     }
 
+    @Transactional
     public User addUser(String type, String org, User user){
        if (userRepository.existsById(user.getUsername())){
            throw new IllegalArgumentException("use is exists");
@@ -55,6 +58,7 @@ public class TrustUserService {
         return userRepository.findById(username).orElseGet(() -> {throw new IllegalArgumentException("user not found !" + username);});
     }
 
+    @Transactional
     public void upTrustManager(String type, String org, String username){
 
         User user = editUser(type,org,username);
@@ -63,6 +67,7 @@ public class TrustUserService {
         }
     }
 
+    @Transactional
     public void downTrustManager(String type, String org, String username){
         User user = editUser(type,org,username);
         if (roleService.downTrust(type,org,user.getAuthorities())){
@@ -70,6 +75,7 @@ public class TrustUserService {
         }
     }
 
+    @Transactional
     public void del(String type,String org, String username){
         User user = editUser(type,org,username);
         if (roleService.delTrust(type,org,user.getAuthorities())){
@@ -81,6 +87,7 @@ public class TrustUserService {
         }
     }
 
+    @Transactional
     public void resetPassword(String type, String org, String username){
         User user = editUser(type,org,username);
         user.setPassword(passwordEncoder.encode(user.getPhone()));

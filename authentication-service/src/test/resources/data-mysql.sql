@@ -19,7 +19,7 @@ insert into _user(username,password,name,enabled,phone)
 VALUES('root','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','root',true,'none');
 
 insert into _user(username,password,name,enabled,phone)
-VALUES('test2','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','test2',true,'test2');
+VALUES('test3','$2a$10$CmODDYEHEYJYWDsxu9ZzfumnUhiFFViGwq9Fmx12tBjmB/TSzGmBu','test3',true,'test3');
 
 insert into user_role(authority,username) VALUES ('HR','root');
 insert into user_role(authority,username) VALUES ('DATA_MGR','root');

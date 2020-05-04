@@ -15,8 +15,8 @@ public class ManagerAuthorizationConfig extends ResourceServerConfigurerAdapter 
     public void configure(HttpSecurity http) throws Exception {
 
         http.requestMatchers().antMatchers("/auth/**")
-                .and().authorizeRequests()
-                .antMatchers("/auth/encode/bcrypt/**","/auth/user").permitAll();
+                .and().authorizeRequests().antMatchers("/auth/**").permitAll();
+//                .antMatchers("/auth/encode/bcrypt/**","/auth/user").permitAll();
 
 
 
