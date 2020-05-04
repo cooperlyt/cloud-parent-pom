@@ -24,6 +24,7 @@ CREATE TABLE role
     authority varchar(32) NOT NULL,
     name varchar(32) NOT NULL,
     description varchar(512) NULL,
+    `system` boolean NOT NULL,
     PRIMARY KEY (authority)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
@@ -31,8 +32,7 @@ CREATE TABLE role
 CREATE TABLE user_role
 (
     username varchar(32) NOT NULL,
-    authority varchar(32) NOT NULL,
-    system boolean NOT NULL
+    authority varchar(32) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 

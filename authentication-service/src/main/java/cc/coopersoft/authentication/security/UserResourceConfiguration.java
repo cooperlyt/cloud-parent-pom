@@ -12,11 +12,11 @@ public class UserResourceConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         //.access("hasAuthority('Master') and hasAuthority('') ")
-        http.antMatcher("/admin/**")
+        http.requestMatchers().antMatchers("/admin/**").and()
                 .authorizeRequests()
-                .antMatchers("/trust/**").hasAuthority("Master")
-                .antMatchers( "/hr/**").access("hasAuthority('Master') and hasAuthority('hr') ")
-                .antMatchers("/ts/**").hasAuthority("Trust")
+                .antMatchers("/admin/trust/**").hasAuthority("Master")
+                .antMatchers( "/admin/hr/**").access("hasAuthority('Master') and hasAuthority('HR') ")
+                .antMatchers("/admin/ts/**").hasAuthority("Trust")
                 .anyRequest().authenticated();
 
     }
