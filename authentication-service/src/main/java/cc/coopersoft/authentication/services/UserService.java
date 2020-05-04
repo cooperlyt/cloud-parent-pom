@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void delUser(String username){
-        userRepository.findById(username).ifPresent(u -> userRepository.delete(u));
+        userRepository.delete(findUser(username));
     }
 
     @Transactional
@@ -98,8 +98,9 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void removeRole(String username, String role){
         User u = findUser(username);
-        u.getAuthorities().removeAll(u.getAuthorities().stream().filter(r -> !r.isSystem() && r.getAuthority().equals(role)).collect(Collectors.toSet()));
-        userRepository.save(u);
+        if (u.getAuthorities().removeAll(u.getAuthorities().stream().filter(r -> !r.isSystem() && r.getAuthority().equals(role)).collect(Collectors.toSet()))){
+            userRepository.save(u);
+        }
     }
 
     public User findUser(String username){
