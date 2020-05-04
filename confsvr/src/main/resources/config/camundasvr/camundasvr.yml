@@ -1,9 +1,21 @@
-#所有参数 性能参数的默认值 依赖服务的默认地址
-
 security:
   oauth2:
     resource:
       userInfoUri: http://authenticationservice:8901/auth/user
+
+camunda.bpm:
+  database:
+    schema-update: false
+    type: mariadb
+  webapp:
+    index-redirect-enabled: true
+  admin-user:
+    id: camunda
+    password: Cooper&camunda
+  authorization:
+    enabled: true
+  filter:
+    create: All tasks
 
 
 eureka:
@@ -15,24 +27,12 @@ eureka:
     serviceUrl:
       defaultZone: http://eurekaserver:8761/eureka/
 
-
-
 spring:
-  cloud:
-    stream:
-      rocketmq:
-        binder:
-          name-server:
-            rmqnamesrv:9876
-      bindings:
-        output:
-          destination: projectChangeTopic
-          content-type: application/json
   datasource:
     initialization-mode: NEVER
     testWhileIdle: "true"
     validationQuery: "SELECT 1"
-    url: "jdbc:mysql://database:3306/CONSTRUCT?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
+    url: "jdbc:mysql://database:3306/camunda?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
     username: "root"
     password: "{cipher}4788dfe1ccbe6485934aec2ffeddb06163ea3d616df5fd75be96aadd4df1da91"
     driver-class-name: "com.mysql.cj.jdbc.Driver"

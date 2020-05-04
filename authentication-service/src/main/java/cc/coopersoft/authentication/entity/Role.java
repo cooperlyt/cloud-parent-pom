@@ -9,11 +9,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Role implements GrantedAuthority {
-    public enum Category{
-        DEV(), //DEVELOPER
-        HG() //HOUSE GOV
-
-    }
 
     @Id
     @Column(nullable = false, unique = true)
@@ -26,9 +21,10 @@ public class Role implements GrantedAuthority {
     @Size(max = 32)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private Category category;
+    private boolean system;
+
+    @Size(max = 256)
+    private String description;
 
     public String getName() {
         return name;
@@ -47,12 +43,20 @@ public class Role implements GrantedAuthority {
         return this.authority;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
     }
 
     @Override
@@ -61,5 +65,20 @@ public class Role implements GrantedAuthority {
                 "id=" + authority +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        return authority.equals(role.authority);
+    }
+
+    @Override
+    public int hashCode() {
+        return authority.hashCode();
     }
 }

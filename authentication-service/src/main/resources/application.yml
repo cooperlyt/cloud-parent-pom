@@ -15,9 +15,6 @@ eureka:
     serviceUrl:
         defaultZone: http://discovery:8761/eureka/
 
-server:
-  servlet:
-    contextPath: /auth
 
 
 spring.jpa.database: "MYSQL"
