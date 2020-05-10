@@ -1,6 +1,6 @@
 
 
-
+USE CLOUD_AUTH;
 insert into role(authority, name, `system`, description) VALUES ('HR','人力资源', false, '管理用户及权限和相关操作');
 
 insert into role(authority, name, `system`, description) VALUES ('DATA_MGR','数据管理员', false, '可不通过业务修改数据!及进行档案补录.');

@@ -19,17 +19,25 @@
                 https://raw.github.com/cooper-lyt/maven-repo/comm-cloud/
             </url>
         </repository>
+
+        <repository>
+            <id>maven-repository-comm-construct</id>
+            <url>
+                https://raw.github.com/cooper-lyt/maven-repo/comm-construct/
+            </url>
+        </repository>
     </repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camunda.spring.boot.starter.version>3.3.8</camunda.spring.boot.starter.version>
+        <camunda.spring.boot.starter.version>3.4.0</camunda.spring.boot.starter.version>
+<!--        3.3.8-->
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.12.RELEASE</version>
+        <version>2.1.13.RELEASE</version>
     </parent>
 
 
@@ -49,8 +57,14 @@
     <dependencies>
         <dependency>
             <groupId>cc.coopersoft</groupId>
-            <artifactId>common-cloud</artifactId>
-            <version>1.0.7</version>
+            <artifactId>common-cloud-spring-boot-starter</artifactId>
+            <version>1.0.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.coopersoft</groupId>
+            <artifactId>common-construct</artifactId>
+            <version>2.2.27</version>
         </dependency>
 
                 <dependency>
@@ -62,7 +76,7 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-            <version>3.4.0</version>
+            <version>${camunda.spring.boot.starter.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -154,6 +168,24 @@
             <version>0.9.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.wujun234</groupId>
+            <artifactId>uid-generator-spring-boot-starter</artifactId>
+            <version>1.0.2.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
 
     </dependencies>
 

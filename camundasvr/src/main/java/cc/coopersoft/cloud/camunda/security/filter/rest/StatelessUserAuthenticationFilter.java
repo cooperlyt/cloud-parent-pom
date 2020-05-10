@@ -1,5 +1,7 @@
 package cc.coopersoft.cloud.camunda.security.filter.rest;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.rest.util.EngineUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class StatelessUserAuthenticationFilter implements Filter {
 
     @Override
@@ -60,7 +63,7 @@ public class StatelessUserAuthenticationFilter implements Filter {
 
         groupIds = authentication.getAuthorities().stream()
                 .map(res -> res.getAuthority())
-                .map(res -> res.substring(5)) // Strip "ROLE_"
+                .map(res -> {if (res.startsWith("ROLE_"))  return res.substring(5);  else return res; }) // Strip "ROLE_"
                 .collect(Collectors.toList());
 
         return groupIds;

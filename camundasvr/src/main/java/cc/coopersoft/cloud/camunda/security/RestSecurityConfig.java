@@ -32,7 +32,7 @@ public class RestSecurityConfig extends ResourceServerConfigurerAdapter {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
         filterRegistration.setFilter(new StatelessUserAuthenticationFilter());
         filterRegistration.setOrder(102); // make sure the filter is registered after the Spring Security Filter Chain
-        filterRegistration.addUrlPatterns("/rest/*");
+        filterRegistration.addUrlPatterns("/rest/*","/adapter/*");
         return filterRegistration;
     }
 
