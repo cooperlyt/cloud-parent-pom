@@ -11,7 +11,7 @@ insert into role(authority, name, `system`, description) VALUES ('CONSTRUCT.CORP
 
 insert into role(authority, name, `system`, description) VALUES ('Trust','托管认证', true, '用于托管认证,本系统中为外部机构登录');
 
-
+insert into role(authority, name, `system`, description) VALUES ('FIRE_CONSTRUCT_CHECK','消防验收管理', true, '对管理消防验收业务进行管理');
 
 -- pasword: dgsoft
 
