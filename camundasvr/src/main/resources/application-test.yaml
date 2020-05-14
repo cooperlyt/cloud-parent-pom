@@ -12,7 +12,7 @@ security:
 
 camunda.bpm:
   database:
-    schema-update: create-drop
+    schema-update: true
     type: mysql
   webapp:
     index-redirect-enabled: true

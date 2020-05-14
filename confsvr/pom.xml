@@ -53,7 +53,7 @@
         <start-class>cc.coopersoft.confsvr.ConfigServerApplication</start-class>
         <java.version>11</java.version>
         <docker.image.name>coopersoft/cloud-confsvr</docker.image.name>
-        <docker.image.tag>latest</docker.image.tag>
+        <docker.image.tag>local</docker.image.tag>
     </properties>
     <build>
         <plugins>

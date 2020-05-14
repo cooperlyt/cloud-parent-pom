@@ -11,8 +11,11 @@ insert into role(authority, name, `system`, description) VALUES ('CONSTRUCT.CORP
 
 insert into role(authority, name, `system`, description) VALUES ('Trust','托管认证', true, '用于托管认证,本系统中为外部机构登录');
 
-insert into role(authority, name, `system`, description) VALUES ('FIRE_CONSTRUCT_CHECK','消防验收管理', true, '对管理消防验收业务进行管理');
+insert into role(authority, name, `system`, description) VALUES ('FIRE_CONSTRUCT_CHECK','消防验收管理', false, '对管理消防验收业务进行管理');
 
+
+
+insert into role(authority, name, `system`, description) VALUES ('camunda-admin','工作流管理组',false, '工作流管理组, 拥有工作流引擎全部功能');
 -- pasword: dgsoft
 
 insert into _user(username,password,name,enabled,phone)
@@ -25,6 +28,8 @@ insert into user_role(authority,username) VALUES ('HR','root');
 insert into user_role(authority,username) VALUES ('DATA_MGR','root');
 insert into user_role(authority,username) VALUES ('Master','root');
 insert into user_role(authority,username) VALUES ('CONSTRUCT.CORP','root');
+
+insert into user_role(authority,username) VALUES ('camunda-admin','root');
 
 
 -- insert into user_role(authority,username) VALUES ('HR','test2');

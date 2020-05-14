@@ -16,8 +16,8 @@ public class RestSecurityConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/rest/**")
+        http.requestMatchers().antMatchers("/rest/**", "/adapter/**").and()
+
                 .authorizeRequests().anyRequest().authenticated();
 //                .and()
 //                .csrf().disable()

@@ -18,7 +18,7 @@
         <camunda.spring.boot.starter.version>3.4.0</camunda.spring.boot.starter.version>
         <start-class>cc.coopersoft.cloud.camunda.Application</start-class>
         <docker.image.name>coopersoft/construct-camunda-service</docker.image.name>
-        <docker.image.tag>latest</docker.image.tag>
+        <docker.image.tag>local</docker.image.tag>
     </properties>
 
     <repositories>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>cc.coopersoft</groupId>
             <artifactId>common-cloud-spring-boot-starter</artifactId>
-            <version>1.0.21</version>
+            <version>1.0.22</version>
         </dependency>
 
         <dependency>

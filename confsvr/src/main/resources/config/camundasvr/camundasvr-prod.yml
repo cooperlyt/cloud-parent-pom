@@ -1,11 +1,14 @@
 #性能参数调节  必要的地址设置
+camunda.bpm:
+  database:
+    schema-update: false
 
 spring:
   datasource:
     initialization-mode: NEVER
     testWhileIdle: "true"
     validationQuery: "SELECT 1"
-    url: "jdbc:mysql://database:3306/camunda?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
+    url: "jdbc:mysql://database:3306/camunda?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullDatabaseMeansCurrent=true&nullCatalogMeansCurrent=true"
     username: "root"
     password: "{cipher}4788dfe1ccbe6485934aec2ffeddb06163ea3d616df5fd75be96aadd4df1da91"
   jpa:
