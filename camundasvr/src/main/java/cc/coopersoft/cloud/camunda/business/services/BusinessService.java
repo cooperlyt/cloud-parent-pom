@@ -1,9 +1,6 @@
 package cc.coopersoft.cloud.camunda.business.services;
 
-import cc.coopersoft.cloud.camunda.business.model.Business;
-import cc.coopersoft.cloud.camunda.business.model.BusinessDefine;
-import cc.coopersoft.cloud.camunda.business.model.BusinessDescription;
-import cc.coopersoft.cloud.camunda.business.model.BusinessOperation;
+import cc.coopersoft.cloud.camunda.business.model.*;
 import cc.coopersoft.cloud.camunda.business.repository.BusinessOperationRepository;
 import cc.coopersoft.cloud.camunda.business.repository.BusinessRepository;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -88,7 +85,7 @@ public class BusinessService {
     }
 
 
-    private BusinessOperation createOperation(BusinessOperation.Type type, String taskName, String description){
+    private BusinessOperation createOperation(Business business,BusinessOperation.Type type, String taskName, String description){
 
 
         LoginInfoService.LoginInfo loginInfo = loginInfoService.loginInfo();
@@ -101,6 +98,7 @@ public class BusinessService {
         result.setEmpName(loginInfo.getName());
         result.setTaskName(taskName);
         result.setDescription(description);
+        result.setBusiness(business);
 
         return result;
     }
@@ -126,6 +124,9 @@ public class BusinessService {
 
 
         description.setId(businessId);
+        for (BusinessKey key: description.getBusinessKeys()){
+            key.getId().setDescription(description);
+        }
         business.setDescription(description);
         business.setCreateTime(new Date());
         if (description.isProcess()){
@@ -136,7 +137,7 @@ public class BusinessService {
             business.setStatus(Business.Status.COMPLETED);
             business.setCompletedTime(new Date());
         }
-        business.getOperations().add(createOperation(BusinessOperation.Type.CREATE,null,null));
+        business.getOperations().add(createOperation(business,BusinessOperation.Type.CREATE,null,null));
 
 
 
