@@ -1,4 +1,4 @@
-package cc.coopersoft.cloud.camunda.construct.fire.delegate;
+package cc.coopersoft.cloud.camunda.business.construct.fire.delegate;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

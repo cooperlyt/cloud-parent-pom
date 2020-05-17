@@ -1,4 +1,4 @@
-package cc.coopersoft.cloud.camunda.construct.fire.delegate;
+package cc.coopersoft.cloud.camunda.business.construct.fire.delegate;
 
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

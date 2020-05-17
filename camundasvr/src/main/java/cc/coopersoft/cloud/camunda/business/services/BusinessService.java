@@ -129,7 +129,7 @@ public class BusinessService {
         }
         business.setDescription(description);
         business.setCreateTime(new Date());
-        if (description.isProcess()){
+        if (description.getSource().isHasProcess()){
             business.setStatus(Business.Status.RUNNING);
             runtimeService.startProcessInstanceByKey(define.getProcess(),
                     String.valueOf(businessId),String.valueOf(businessId),variables);

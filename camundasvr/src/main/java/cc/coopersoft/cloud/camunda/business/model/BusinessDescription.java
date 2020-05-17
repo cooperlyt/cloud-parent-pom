@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Map;
 import java.util.Set;
@@ -51,9 +52,11 @@ public class BusinessDescription extends cc.coopersoft.common.business.BusinessD
         return super.getDescriptionMap();
     }
 
-    @Column(name = "PROCESS", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "SOURCE", length = 8, nullable = false)
     @Override
-    public boolean isProcess(){return super.isProcess();}
+    @NotNull
+    public Source getSource(){return super.getSource();}
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.description", cascade = CascadeType.ALL , orphanRemoval = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

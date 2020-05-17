@@ -1,4 +1,4 @@
-package cc.coopersoft.cloud.camunda.construct.fire.services;
+package cc.coopersoft.cloud.camunda.business.construct.fire.service;
 
 import cc.coopersoft.cloud.camunda.business.model.Business;
 import cc.coopersoft.cloud.camunda.business.model.BusinessDescription;
@@ -28,6 +28,7 @@ public class FireBusinessService {
         variables.put("description",description.getDescription());
         variables.put("define", defineId);
         variables.put("_key",description.getKeys());
+        variables.put("_full",BusinessDescription.Source.Outside.equals(description.getSource()));
 
         return businessService.start(businessId,defineId,description, variables);
     }
