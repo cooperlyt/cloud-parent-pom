@@ -127,6 +127,7 @@
           <camunda:property name="view" value="fire_check_view" />
           <camunda:property name="edit" value="check_task" />
         </camunda:properties>
+        <camunda:executionListener delegateExpression="${generateDocuments}" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_13a5k75</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14txz14</bpmn:outgoing>

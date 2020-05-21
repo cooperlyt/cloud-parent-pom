@@ -1,0 +1,49 @@
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    cc.coopersoft: DEBUG
+
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://192.168.1.21:8901/auth/user
+
+camunda.bpm:
+  database:
+    schema-update: true
+    type: mysql
+  webapp:
+    index-redirect-enabled: true
+  admin-user:
+    id: camunda
+    password: Cooper&camunda
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://192.168.1.21:8761/eureka/
+
+spring:
+  datasource:
+    testWhileIdle: "true"
+    validationQuery: "SELECT 1"
+    url: "jdbc:mysql://127.0.0.1:3306/camunda?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false"
+    username: "root"
+    password: "5257mq99"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    platform: mysql
+    initialization-mode: always
+  jpa:
+    database: "MYSQL"
+    show-sql: "true"
+    properties:
+      hibernate:
+        ddl-auto: "none"
+        enable_lazy_load_no_trans: true
+        dialect: "org.hibernate.dialect.MySQL5Dialect"

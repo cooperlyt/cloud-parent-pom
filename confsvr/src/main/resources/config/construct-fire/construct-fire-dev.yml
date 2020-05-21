@@ -15,3 +15,10 @@ spring:
     password: "{cipher}4788dfe1ccbe6485934aec2ffeddb06163ea3d616df5fd75be96aadd4df1da91"
   jpa:
     show-sql: "true"
+
+org:
+  name: "东港市住房和城乡建设局"
+
+report:
+  mark: "东港市住房和城乡建设局"
+  address: "http://mediaservice:6699/upload/"

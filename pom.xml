@@ -22,7 +22,6 @@
     <module>zuulsvr</module>
     <module>authentication-service</module>
     <module>camundasvr</module>
-      <module>business-define</module>
   </modules>
   <build>
     <plugins>

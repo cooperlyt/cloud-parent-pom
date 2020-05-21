@@ -16,7 +16,7 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <camunda.spring.boot.starter.version>3.4.0</camunda.spring.boot.starter.version>
-        <start-class>cc.coopersoft.cloud.camunda.Application</start-class>
+        <start-class>cc.coopersoft.cloud.business.Application</start-class>
         <docker.image.name>coopersoft/construct-camunda-service</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
     </properties>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>cc.coopersoft</groupId>
             <artifactId>common-construct</artifactId>
-            <version>2.2.27</version>
+            <version>2.2.33</version>
         </dependency>
 
                 <dependency>

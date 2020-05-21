@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: camundasvr
+  profiles:
+    active:
+      test
+  cloud:
+    config:
+      uri: http://192.168.1.21:8888
+      enabled: false
+
+server:
+  port: 18086
