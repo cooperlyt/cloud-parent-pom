@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t coopersoft/archives-media-service:nosse1 .
+docker build -t coopersoft/archives-media-service:nosse2 .

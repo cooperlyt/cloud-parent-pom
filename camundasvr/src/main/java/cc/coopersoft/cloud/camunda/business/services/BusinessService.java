@@ -3,7 +3,7 @@ package cc.coopersoft.cloud.camunda.business.services;
 import cc.coopersoft.cloud.camunda.business.model.*;
 import cc.coopersoft.cloud.camunda.business.repository.BusinessOperationRepository;
 import cc.coopersoft.cloud.camunda.business.repository.BusinessRepository;
-import com.fasterxml.jackson.annotation.JsonValue;
+import cc.coopersoft.common.business.define.BusinessDefine;
 import com.github.wujun234.uid.UidGenerator;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -39,8 +39,8 @@ public class BusinessService {
 
     private final BusinessOperationRepository operationRepository;
     private final BusinessRepository businessRepository;
-    private final BusinessDefineService defineService;
     private final LoginInfoService loginInfoService;
+    private final RemoteService remoteService;
 
     private final RuntimeService runtimeService;
 
@@ -49,12 +49,13 @@ public class BusinessService {
 
     public BusinessService(BusinessOperationRepository operationRepository,
                            BusinessRepository businessRepository,
-                           BusinessDefineService defineService,
-                           LoginInfoService loginInfoService, RuntimeService runtimeService) {
+                           LoginInfoService loginInfoService,
+                           RemoteService remoteService,
+                           RuntimeService runtimeService) {
         this.operationRepository = operationRepository;
         this.businessRepository = businessRepository;
-        this.defineService = defineService;
         this.loginInfoService = loginInfoService;
+        this.remoteService = remoteService;
         this.runtimeService = runtimeService;
     }
 
@@ -106,7 +107,7 @@ public class BusinessService {
 
     @Transactional
     public Business start(long businessId, String defineId, BusinessDescription description,Map<String, Object> variables){
-        BusinessDefine define = defineService.businessDefine(defineId);
+        BusinessDefine define = remoteService.getBusinessDefine(defineId);
 
         Business business = new Business();
         business.setId(businessId);

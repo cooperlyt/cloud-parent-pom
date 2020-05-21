@@ -8,8 +8,8 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
     SUPERCRONIC_SHA1SUM=be43e64c45acd6ec4fce5831e03759c89676a0ea
 
 
-#0.77 is ok
-ENV WEEDFS_VERSION='0.90'
+#0.90 is ok
+ENV WEEDFS_VERSION='1.79'
 
 
 ENV PKGNAME=graphicsmagick

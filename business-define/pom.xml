@@ -3,47 +3,28 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
     <groupId>cc.coopersoft</groupId>
+    <artifactId>business-define</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <artifactId>camundasvr</artifactId>
-    <packaging>jar</packaging>
+    <name>business define service</name>
+    <description>业务定义设置</description>
 
-    <name>Camunda Server</name>
-    <description>Camunda Work Flow Server</description>
+    <modelVersion>4.0.0</modelVersion>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <camunda.spring.boot.starter.version>3.4.0</camunda.spring.boot.starter.version>
-        <start-class>cc.coopersoft.cloud.camunda.Application</start-class>
-        <docker.image.name>coopersoft/construct-camunda-service</docker.image.name>
-        <docker.image.tag>latest</docker.image.tag>
+        <start-class>cc.coopersoft.cloud.business.define.Application</start-class>
+        <docker.image.name>coopersoft/business-define-service</docker.image.name>
+        <docker.image.tag>snapshot</docker.image.tag>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>maven-repository-comm-cloud</id>
-            <url>
-                https://raw.github.com/cooper-lyt/maven-repo/comm-cloud/
-            </url>
-        </repository>
-
-        <repository>
-            <id>maven-repository-comm-construct</id>
-            <url>
-                https://raw.github.com/cooper-lyt/maven-repo/comm-construct/
-            </url>
-        </repository>
-    </repositories>
-
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.13.RELEASE</version>
+        <version>2.1.12.RELEASE</version>
     </parent>
-
 
     <dependencyManagement>
         <dependencies>
@@ -57,43 +38,22 @@
         </dependencies>
     </dependencyManagement>
 
-
+    <repositories>
+        <repository>
+            <id>maven-repository-comm-cloud</id>
+            <url>
+                https://raw.github.com/cooper-lyt/maven-repo/comm-cloud/
+            </url>
+        </repository>
+    </repositories>
     <dependencies>
+
         <dependency>
             <groupId>cc.coopersoft</groupId>
             <artifactId>common-cloud-spring-boot-starter</artifactId>
             <version>1.0.27</version>
         </dependency>
 
-        <dependency>
-            <groupId>cc.coopersoft</groupId>
-            <artifactId>common-construct</artifactId>
-            <version>2.2.27</version>
-        </dependency>
-
-                <dependency>
-                    <groupId>org.camunda.bpm.springboot</groupId>
-                    <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
-                    <version>${camunda.spring.boot.starter.version}</version>
-                </dependency>
-
-        <dependency>
-            <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-            <version>${camunda.spring.boot.starter.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-            <version>${camunda.spring.boot.starter.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,21 +62,21 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.15</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -144,20 +104,26 @@
         </dependency>
 
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.15</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-security</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>2.3.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.1.7.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -173,33 +139,51 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.8</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.wujun234</groupId>
-            <artifactId>uid-generator-spring-boot-starter</artifactId>
-            <version>1.0.2.RELEASE</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
         </dependency>
 
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
             <!-- We use the Resources plugin to filer Dockerfile and run.sh, it inserts actual JAR filename -->
             <!-- The final Dockerfile will be created in target/dockerfile/Dockerfile -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -209,10 +193,6 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <nonFilteredFileExtensions>
-                                <nonFilteredFileExtension>cert</nonFilteredFileExtension>
-                                <nonFilteredFileExtension>jks</nonFilteredFileExtension>
-                            </nonFilteredFileExtensions>
                             <outputDirectory>${basedir}/target/dockerfile</outputDirectory>
                             <resources>
                                 <resource>
@@ -250,10 +230,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <addResources>false</addResources>
-                </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
