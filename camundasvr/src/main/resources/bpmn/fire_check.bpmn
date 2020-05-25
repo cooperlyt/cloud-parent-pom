@@ -121,7 +121,7 @@
       <bpmn:incoming>SequenceFlow_163vend</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_163vend" sourceRef="Task_05swjnd" targetRef="EndEvent_0j9rh26" />
-    <bpmn:userTask id="Task_1qebp26" name="要件上传" camunda:candidateGroups="camunda-fire-apply">
+    <bpmn:userTask id="Task_1qebp26" name="业务受理" camunda:candidateGroups="camunda-fire-apply">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="view" value="fire_check_view" />

@@ -1,14 +1,11 @@
 package cc.coopersoft.cloud.business.camunda.construct.fire.delegate;
 
-import cc.coopersoft.cloud.business.define.model.DocumentDefine;
 import cc.coopersoft.cloud.business.define.service.DefineService;
 import cc.coopersoft.cloud.business.document.service.DocumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @Slf4j
@@ -24,6 +21,6 @@ public class GenerateDocuments implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        documentService.addDocument(Long.parseLong(execution.getBusinessKey()),(String) execution.getProcessInstance().getVariable("define"));
+        documentService.initBusinessDocument(Long.parseLong(execution.getBusinessKey()),(String) execution.getProcessInstance().getVariable("define"));
     }
 }

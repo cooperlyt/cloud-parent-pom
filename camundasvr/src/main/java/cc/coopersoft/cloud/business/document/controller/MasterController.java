@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value="/master/doc")
+@RequestMapping(value="/manager/doc")
 public class MasterController {
 
 
@@ -20,14 +20,11 @@ public class MasterController {
         this.documentService = documentService;
     }
 
-    @RequestMapping(value = "/business/{id}", method = RequestMethod.GET)
-    public List<BusinessDocument> businessDocuments(@PathVariable("id") long id){
-        return documentService.businessDocuments(id);
-    }
+
 
     @RequestMapping(value = "/business/{id}/add", method = RequestMethod.POST)
-    public BusinessDocument addDocument(@PathVariable("id") long id, @RequestBody String name){
-        return documentService.addDocument(id,name);
+    public BusinessDocument addDocument(@PathVariable("id") long id, @RequestBody BusinessDocument document){
+        return documentService.addDocument(id,document);
     }
 
     @RequestMapping(value = "/{id}/del", method = RequestMethod.DELETE)

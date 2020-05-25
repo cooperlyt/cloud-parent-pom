@@ -44,6 +44,9 @@ public class BusinessFile implements EntityOrderTools.OrderEntity, java.io.Seria
     @Column(name = "FILE_SIZE")
     private Integer size;
 
+    @Column(name="EXT_NAME",length = 8)
+    @Size(max = 8)
+    private String extName;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "FILE_ID", nullable = false)

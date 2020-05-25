@@ -1,6 +1,7 @@
 package cc.coopersoft.cloud.business.document.service;
 
 
+import cc.coopersoft.cloud.business.camunda.service.ProcessService;
 import cc.coopersoft.cloud.business.define.model.DocumentDefine;
 import cc.coopersoft.cloud.business.define.service.DefineService;
 import cc.coopersoft.cloud.business.document.model.BusinessDocument;
@@ -21,6 +22,8 @@ import java.util.Optional;
 @Service
 public class DocumentService {
 
+    private static final String DOC_CHANGE_VARIABLE_NAME = "change_doc";
+
     @Resource
     private UidGenerator defaultUidGenerator;
 
@@ -31,38 +34,101 @@ public class DocumentService {
 
     private final DefineService defineService;
 
-    public DocumentService(DocumentRepository documentRepository, BusinessFileRepository businessFileRepository, DefineService defineService) {
+    private final ProcessService processService;
+
+    public DocumentService(DocumentRepository documentRepository, BusinessFileRepository businessFileRepository, DefineService defineService, ProcessService processService) {
 
         this.documentRepository = documentRepository;
         this.businessFileRepository = businessFileRepository;
         this.defineService = defineService;
+        this.processService = processService;
     }
 
     public List<BusinessDocument> businessDocuments(long businessId){
         return documentRepository.findByBusinessOrderByOrder(businessId);
     }
 
+
+
     @Transactional
-    public void addBusinessDocument(long businessId, String defineId){
+    public void initBusinessDocument(long businessId, String defineId){
         int i = 0;
         List<DocumentDefine> defines = defineService.getDocumentDefines(defineId);
         List<BusinessDocument> documents = new ArrayList<>(defines.size());
         for(DocumentDefine define: defines){
-            documents.add(new BusinessDocument(businessId,defaultUidGenerator.getUID(),i,DocumentDefine.Type.REQ.equals(define.type),define.getName() ));
+            documents.add(
+                    new BusinessDocument(businessId,
+                            defaultUidGenerator.getUID(),
+                            i,
+                            DocumentDefine.Type.REQ.equals(define.type),
+                            define.getName(), define.description ));
             i += EntityOrderTools.ORDER_STEP;
         }
         documentRepository.saveAll(documents);
     }
 
     @Transactional
-    public BusinessDocument addDocument(long businessId, String name){
-        BusinessDocument document = new BusinessDocument(businessId,defaultUidGenerator.getUID(),documentRepository.maxOrder(businessId) + EntityOrderTools.ORDER_STEP,false,name);
+    public BusinessDocument addDocument(String taskId, BusinessDocument document){
+        return this.addDocument(taskDocChange(taskId), document);
+    }
+
+    @Transactional
+    public BusinessDocument addDocument(long businessId,BusinessDocument document){
+        document.setId(defaultUidGenerator.getUID());
+        document.setBusiness(businessId);
+        document.setOrder(documentRepository.maxOrder(businessId) + EntityOrderTools.ORDER_STEP);
+        document.setNeed(false);
         return documentRepository.save(document);
+    }
+
+    private void onTaskDocChange(String taskId, long businessKey){
+        if (taskDocChange(taskId) != businessKey){
+            throw new IllegalStateException("no auth");
+        }
+    }
+
+    private long taskDocChange(String taskId){
+        processService.setTaskVariable(taskId,DOC_CHANGE_VARIABLE_NAME,true);
+        return Long.parseLong(processService.getActiveBusinessKeyByTaskId(taskId));
+    }
+
+    @Transactional
+    public void delDocument(String taskId, long id){
+
+        BusinessDocument origin = documentRepository.findById(id).orElseThrow();
+
+        if (origin.getBusiness() == taskDocChange(taskId)){
+            if (origin.isNeed()){
+                throw new IllegalArgumentException("important doc cant`t del");
+            }else
+                documentRepository.deleteById(id);
+        }else{
+            throw new IllegalStateException("no auth");
+        }
+
     }
 
     @Transactional
     public void delDocument(long id){
         documentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public BusinessDocument editDocument(String taskId,long docId, BusinessDocument document){
+        BusinessDocument origin = documentRepository.findById(docId).orElseThrow();
+        if (origin.isNeed()){
+            throw new IllegalArgumentException("important file can`t edit");
+        }
+        onTaskDocChange(taskId, origin.getBusiness());
+        origin.assign(document);
+        return documentRepository.save(origin);
+    }
+
+    @Transactional
+    public BusinessDocument editDocument(long docId, BusinessDocument document){
+        BusinessDocument origin = documentRepository.findById(docId).orElseThrow();
+        origin.assign(document);
+        return documentRepository.save(origin);
     }
 
     @Transactional
@@ -77,6 +143,13 @@ public class DocumentService {
         BusinessDocument doc = documentRepository.findById(docId).orElseThrow();
         doc.setName(name);
         documentRepository.save(doc);
+    }
+
+    @Transactional
+    public void orderDocument(String taskId, long id, Optional<Long> beforeId){
+        onTaskDocChange(taskId,documentRepository.findById(id).orElseThrow().getBusiness());
+        orderDocument(id,beforeId);
+
     }
 
     @Transactional
@@ -114,16 +187,43 @@ public class DocumentService {
         });
     }
 
+
+
     @Transactional
-    public BusinessFile addFile(long documentId, BusinessFile file){
-        file.setDocument(documentRepository.findById(documentId).orElseThrow(() -> new IllegalArgumentException("document not found: " + documentId)));
-        file.setOrder(businessFileRepository.maxOrder(documentId) + EntityOrderTools.ORDER_STEP);
+    public BusinessFile addFile(String taskId, long documentId, BusinessFile file){
+        BusinessDocument document = documentRepository.findById(documentId).orElseThrow(() -> new IllegalArgumentException("document not found: " + documentId));
+        onTaskDocChange(taskId, document.getBusiness());
+        return addFile(document,file);
+    }
+
+    public BusinessFile addFile(BusinessDocument document, BusinessFile file){
+        file.setDocument(document);
+        file.setOrder(businessFileRepository.maxOrder(document.getId()) + EntityOrderTools.ORDER_STEP);
         file.setTime(new Date());
         return businessFileRepository.save(file);
     }
 
+    @Transactional
+    public BusinessFile addFile(long documentId, BusinessFile file){
+        return addFile(documentRepository.findById(documentId).orElseThrow(() -> new IllegalArgumentException("document not found: " + documentId)), file);
+    }
+
+
+    @Transactional
+    public void delFile(String taskId, String fid){
+        onTaskDocChange(taskId,businessFileRepository.findById(fid).orElseThrow().getDocument().getBusiness());
+        delFile(fid);
+    }
+
+    @Transactional
     public void delFile(String fid){
         businessFileRepository.deleteById(fid);
+    }
+
+    @Transactional
+    public void orderFile(String taskId, String id , Optional<String> beforeId){
+        onTaskDocChange(taskId,businessFileRepository.findById(id).orElseThrow().getDocument().getBusiness());
+        orderFile(id,beforeId);
     }
 
     @Transactional

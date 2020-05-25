@@ -32,9 +32,11 @@ public class DocumentServiceTest {
 
         long bizId  = 100l;
 
-        
+        BusinessDocument dd = new BusinessDocument();
+        dd.setName("test2");
 
-        BusinessDocument doc = documentService.addDocument(bizId,"test2");
+
+        BusinessDocument doc = documentService.addDocument(bizId,dd);
 
         assertEquals(documentService.businessDocuments(bizId).size(), 1);
 
@@ -86,7 +88,9 @@ public class DocumentServiceTest {
         assertEquals(documentService.businessDocuments(bizId).size(),0);
 
         for (int i = 0 ; i< 10 ; i++){
-            documentService.addDocument(bizId,"add" + i);
+            BusinessDocument dd2 = new BusinessDocument();
+            dd2.setName("add" + i);
+            documentService.addDocument(bizId,dd2);
         }
 
 

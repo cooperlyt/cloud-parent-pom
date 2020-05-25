@@ -17,6 +17,7 @@ public class BusinessSecurityConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/publish/**").permitAll()
                 .antMatchers("/master/**").hasAuthority("Master")
                 .antMatchers("/trust/**").hasAuthority("Trust")
+                .antMatchers("/manager/**").hasAuthority("DATA_MGR")
                 .anyRequest().authenticated();
     }
 }

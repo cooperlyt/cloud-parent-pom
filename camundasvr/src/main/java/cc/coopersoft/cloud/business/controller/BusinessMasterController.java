@@ -1,5 +1,7 @@
 package cc.coopersoft.cloud.business.controller;
 
+import cc.coopersoft.cloud.business.document.model.BusinessDocument;
+import cc.coopersoft.cloud.business.document.service.DocumentService;
 import cc.coopersoft.cloud.business.model.Business;
 import cc.coopersoft.cloud.business.model.BusinessOperation;
 import cc.coopersoft.cloud.business.services.BusinessService;
@@ -16,15 +18,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value="/master/business")
 @Slf4j
-public class BusinessController {
+public class BusinessMasterController {
 
     private final BusinessService businessService;
 
-    public BusinessController(BusinessService businessService) {
+    private final DocumentService documentService;
+
+    public BusinessMasterController(BusinessService businessService, DocumentService documentService) {
         this.businessService = businessService;
+        this.documentService = documentService;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "search", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<Business> businesses (
             @RequestParam(value = "valid", required = false) Optional<Boolean> valid,
@@ -33,11 +38,16 @@ public class BusinessController {
        return this.businessService.businesses(page.orElse(0),valid.orElse(false),key);
     }
 
-    @RequestMapping(value = "/operations/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/operations", method = RequestMethod.GET)
     public List<BusinessOperation> operations(@PathVariable("id") long id){
         return businessService.operations(id);
     }
 
+
+    @RequestMapping(value = "/{id}/doc", method = RequestMethod.GET)
+    public List<BusinessDocument> businessDocuments(@PathVariable("id") long id){
+        return documentService.businessDocuments(id);
+    }
 
     @RequestMapping(value = "/test2" ,method = RequestMethod.POST)
     public void test(@RequestBody Map<String,String> data){

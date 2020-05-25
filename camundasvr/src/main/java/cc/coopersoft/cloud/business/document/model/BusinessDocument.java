@@ -20,12 +20,19 @@ import java.util.List;
 @NoArgsConstructor
 public class BusinessDocument implements EntityOrderTools.OrderEntity, java.io.Serializable {
 
-    public BusinessDocument(long business, long id, int order, boolean need, String name) {
+    public BusinessDocument(long business, long id, int order, boolean need, String name, String description) {
         this.id = id;
         this.name = name;
         this.business = business;
         this.order = order;
         this.need = need;
+        this.description = description;
+    }
+
+    public void assign(BusinessDocument other){
+        this.name = other.name;
+        this.description = other.description;
+        this.pageCount = other.pageCount;
     }
 
     @Id
@@ -38,8 +45,13 @@ public class BusinessDocument implements EntityOrderTools.OrderEntity, java.io.S
     @NotBlank
     private String name;
 
-    @Column(name = "IMPORT", nullable = false)
+    @Column(name = "NEED", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean need;
+
+    @Column(name = "DESCRIPTION", length = 1024)
+    @Size(max = 1024)
+    private String description;
 
     @Column(name = "_ORDER", nullable = false)
     @JsonIgnore
@@ -55,6 +67,7 @@ public class BusinessDocument implements EntityOrderTools.OrderEntity, java.io.S
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("order")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<BusinessFile> files = new ArrayList<>(0);
 
 
