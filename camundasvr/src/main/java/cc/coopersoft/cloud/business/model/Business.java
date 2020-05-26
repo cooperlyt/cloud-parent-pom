@@ -52,11 +52,9 @@ public class Business extends cc.coopersoft.common.business.Business<BusinessDes
     @Override
     public String getName(){return super.getName();}
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "business", cascade = CascadeType.ALL, orphanRemoval = true)
     @Override
     public BusinessDescription getDescription(){return super.getDescription();}
-
 
 
 }

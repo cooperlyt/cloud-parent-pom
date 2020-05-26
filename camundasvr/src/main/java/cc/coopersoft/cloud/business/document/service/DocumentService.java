@@ -1,7 +1,7 @@
 package cc.coopersoft.cloud.business.document.service;
 
 
-import cc.coopersoft.cloud.business.camunda.service.ProcessService;
+import cc.coopersoft.cloud.business.camunda.util.service.TaskUtilsService;
 import cc.coopersoft.cloud.business.define.model.DocumentDefine;
 import cc.coopersoft.cloud.business.define.service.DefineService;
 import cc.coopersoft.cloud.business.document.model.BusinessDocument;
@@ -34,14 +34,15 @@ public class DocumentService {
 
     private final DefineService defineService;
 
-    private final ProcessService processService;
+    private final TaskUtilsService taskUtilsService;
 
-    public DocumentService(DocumentRepository documentRepository, BusinessFileRepository businessFileRepository, DefineService defineService, ProcessService processService) {
+    public DocumentService(DocumentRepository documentRepository, BusinessFileRepository businessFileRepository, DefineService defineService, TaskUtilsService taskUtilsService) {
 
         this.documentRepository = documentRepository;
         this.businessFileRepository = businessFileRepository;
         this.defineService = defineService;
-        this.processService = processService;
+
+        this.taskUtilsService = taskUtilsService;
     }
 
     public List<BusinessDocument> businessDocuments(long businessId){
@@ -88,8 +89,8 @@ public class DocumentService {
     }
 
     private long taskDocChange(String taskId){
-        processService.setTaskVariable(taskId,DOC_CHANGE_VARIABLE_NAME,true);
-        return Long.parseLong(processService.getActiveBusinessKeyByTaskId(taskId));
+        taskUtilsService.setTaskVariable(taskId,DOC_CHANGE_VARIABLE_NAME,true);
+        return Long.parseLong(taskUtilsService.getActiveBusinessKeyByTaskId(taskId));
     }
 
     @Transactional

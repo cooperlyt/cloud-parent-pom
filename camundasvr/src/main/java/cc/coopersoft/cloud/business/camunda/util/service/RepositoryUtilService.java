@@ -1,6 +1,10 @@
 package cc.coopersoft.cloud.business.camunda.util.service;
 
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.rest.dto.task.TaskDto;
+import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaProperties;
@@ -9,14 +13,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
-public class RestUtilService {
+public class RepositoryUtilService {
 
     private final RepositoryService repositoryService;
 
-    public RestUtilService(RepositoryService repositoryService) {
+
+    public RepositoryUtilService(RepositoryService repositoryService) {
         this.repositoryService = repositoryService;
     }
 
@@ -62,6 +69,7 @@ public class RestUtilService {
         }
         return null;
     }
+
 
 
 }

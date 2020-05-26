@@ -43,7 +43,6 @@ public class BusinessService {
     private final BusinessRepository businessRepository;
     private final LoginInfoService loginInfoService;
     private final DefineService defineService;
-    private final DocumentService documentService;
 
     private final RuntimeService runtimeService;
 
@@ -53,12 +52,11 @@ public class BusinessService {
     public BusinessService(BusinessOperationRepository operationRepository,
                            BusinessRepository businessRepository,
                            LoginInfoService loginInfoService,
-                           DefineService defineService, DocumentService documentService, RuntimeService runtimeService) {
+                           DefineService defineService, RuntimeService runtimeService) {
         this.operationRepository = operationRepository;
         this.businessRepository = businessRepository;
         this.loginInfoService = loginInfoService;
         this.defineService = defineService;
-        this.documentService = documentService;
         this.runtimeService = runtimeService;
     }
 
@@ -126,8 +124,8 @@ public class BusinessService {
             throw new IllegalArgumentException("description fail!",e);
         }
 
-
-        description.setId(businessId);
+        description.setId(business.getId());
+        description.setBusiness(business);
         for (BusinessKey key: description.getBusinessKeys()){
             key.getId().setDescription(description);
         }

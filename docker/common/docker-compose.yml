@@ -14,8 +14,8 @@ services:
          ENCRYPT_KEY:       "IMSYMMETRIC"
       links:
         - eurekaserver:discovery
-  zuulserver:
-      image: coopersoft/cloud-zuulsvr:latest
+  gatewaysvr:
+      image: coopersoft/cloud-gatewaysvr:latest
       ports:
         - "5555:5555"
       environment:
@@ -24,7 +24,7 @@ services:
         CONFIGSERVER_PORT: 8888
         EUREKASERVER_PORT: 8761
         CONFIGSERVER_URI: "http://configserver:8888"
-        EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+        EUREKASERVER_URI: "http://discovery:8761/eureka/"
       links:
         - eurekaserver:discovery
   database:

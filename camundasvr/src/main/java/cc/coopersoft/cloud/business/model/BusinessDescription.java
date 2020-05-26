@@ -62,6 +62,14 @@ public class BusinessDescription extends cc.coopersoft.common.business.BusinessD
     @Override
     public Set<BusinessKey> getBusinessKeys(){return super.getBusinessKeys();}
 
+
+    @Access(AccessType.FIELD)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ID")
+    @MapsId()
+    @JsonIgnore
+    private Business business;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -49,15 +49,5 @@ public class BusinessMasterController {
         return documentService.businessDocuments(id);
     }
 
-    @RequestMapping(value = "/test2" ,method = RequestMethod.POST)
-    public void test(@RequestBody Map<String,String> data){
-        log.debug(data.get("a").toString());
-        log.debug(data.get("b").toString());
-    }
 
-    @RequestMapping(value = "/test" ,method = RequestMethod.POST)
-    public void test(@RequestBody VariableMap data){
-        log.debug(data.get("a").toString());
-        log.debug(data.get("b").toString());
-    }
 }
