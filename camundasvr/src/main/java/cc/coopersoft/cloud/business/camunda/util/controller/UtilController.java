@@ -6,10 +6,7 @@ import cc.coopersoft.cloud.business.camunda.util.service.TaskUtilsService;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.rest.dto.task.TaskDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -22,11 +19,11 @@ public class UtilController {
 
     private final RepositoryUtilService repositoryUtilService;
 
-    //private final TaskUtilsService taskUtilsService;
+    private final TaskUtilsService taskUtilsService;
 
     public UtilController(RepositoryUtilService repositoryUtilService, TaskUtilsService taskUtilsService) {
         this.repositoryUtilService = repositoryUtilService;
-        //this.taskUtilsService = taskUtilsService;
+        this.taskUtilsService = taskUtilsService;
     }
 
     @RequestMapping(value = "define/process/{processDefinitionId}/task/{taskDefinitionKey}/extensions", method = RequestMethod.GET)
@@ -48,6 +45,10 @@ public class UtilController {
         return result;
     }
 
+    @RequestMapping(value = "business/key/{key}/tasks", method = RequestMethod.GET)
+    public List<TaskDto> getTasksByBusinessKey(@PathVariable("key") String businessKey){
+        return taskUtilsService.getActiveTasksByBusinessKey(businessKey);
+    }
     //public List<TaskDto>
 
 }

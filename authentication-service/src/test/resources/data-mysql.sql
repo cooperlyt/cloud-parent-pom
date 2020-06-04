@@ -58,7 +58,7 @@ insert into user_role(authority,username) VALUES ('camunda-fire-apply','apply');
 insert into user_role(authority,username) VALUES ('camunda-fire-site','apply');
 
 insert into user_role(authority,username) VALUES ('Master','check');
-insert into user_role(authority,username) VALUES ('camunda-fire-approval','apply');
+insert into user_role(authority,username) VALUES ('camunda-fire-approval','check');
 
 
 -- insert into user_role(authority,username) VALUES ('HR','test2');

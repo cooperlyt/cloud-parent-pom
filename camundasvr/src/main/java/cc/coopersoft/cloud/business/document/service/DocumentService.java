@@ -93,6 +93,7 @@ public class DocumentService {
         return Long.parseLong(taskUtilsService.getActiveBusinessKeyByTaskId(taskId));
     }
 
+
     @Transactional
     public void delDocument(String taskId, long id){
 
@@ -193,11 +194,14 @@ public class DocumentService {
     @Transactional
     public BusinessFile addFile(String taskId, long documentId, BusinessFile file){
         BusinessDocument document = documentRepository.findById(documentId).orElseThrow(() -> new IllegalArgumentException("document not found: " + documentId));
-        onTaskDocChange(taskId, document.getBusiness());
+        if (Long.parseLong(taskUtilsService.getActiveBusinessKeyByTaskId(taskId)) != document.getBusiness()){
+            throw new IllegalArgumentException("task not this business`s");
+        }
+        taskUtilsService.setTaskVariable(taskId,file.getId(),"ADD");
         return addFile(document,file);
     }
 
-    public BusinessFile addFile(BusinessDocument document, BusinessFile file){
+    private BusinessFile addFile(BusinessDocument document, BusinessFile file){
         file.setDocument(document);
         file.setOrder(businessFileRepository.maxOrder(document.getId()) + EntityOrderTools.ORDER_STEP);
         file.setTime(new Date());

@@ -19,9 +19,9 @@
       <bpmn:documentation>task description : ${approved}</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:properties>
-          <camunda:property name="check" value="true" />
+          <camunda:property name="check" value="approved" />
           <camunda:property name="view" value="fire_check_view" />
-          <camunda:property name="edit" value="check_task" />
+          <camunda:property name="reapply" value="reapply" />
         </camunda:properties>
         <camunda:inputOutput>
           <camunda:inputParameter name="Input_0ho5lt3" />
@@ -34,6 +34,13 @@
     </bpmn:userTask>
     <bpmn:userTask id="Task_1n7az2l" name="现场勘查" camunda:candidateGroups="camunda-fire-site">
       <bpmn:documentation>task description : ${approved}</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="view" value="fire_check_view" />
+          <camunda:property name="check" value="approved" />
+          <camunda:property name="reapply" value="reapply" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1j45le8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1a4il65</bpmn:outgoing>
     </bpmn:userTask>
@@ -58,6 +65,13 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved &amp;&amp; !reapply}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Task_0srpcip" name="审批" camunda:candidateGroups="camunda-fire-approval">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="view" value="fire_check_view" />
+          <camunda:property name="reapply" value="reapply" />
+          <camunda:property name="check" value="approved" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0utdw6c</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0qoi6ga</bpmn:outgoing>
     </bpmn:userTask>
@@ -69,6 +83,11 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0qoi6ga" sourceRef="Task_0srpcip" targetRef="ExclusiveGateway_149chwv" />
     <bpmn:userTask id="Task_0kxq805" name="重新受理" camunda:candidateGroups="camunda-fire-apply">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="edit" value="fire_edit" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1q35odi</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1ihydai</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1tvahgj</bpmn:incoming>
@@ -122,10 +141,10 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_163vend" sourceRef="Task_05swjnd" targetRef="EndEvent_0j9rh26" />
     <bpmn:userTask id="Task_1qebp26" name="业务受理" camunda:candidateGroups="camunda-fire-apply">
+      <bpmn:documentation>&lt;strong&gt;${applyType eq "First" ? "消防验收申请"  : "消防验收复查"} - ${name}  - ${property eq "NEW" ? "新建" :  property eq "MODIFY"  ?  "改建"  : property eq "BIG" ? "扩建" : property eq "MOVE"  ? "迁建"  : "临建"}  - ${inRandom ? "抽中"  : "未抽中"}&lt;/strong&gt; &lt;strong&gt;申请单位:&lt;/strong&gt;${applyCorp}&lt;strong&gt; 开发单位:&lt;/strong&gt;${developer}</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="view" value="fire_check_view" />
-          <camunda:property name="edit" value="check_task" />
         </camunda:properties>
         <camunda:executionListener delegateExpression="${generateDocuments}" event="start" />
       </bpmn:extensionElements>

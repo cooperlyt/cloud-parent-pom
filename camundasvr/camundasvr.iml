@@ -36,10 +36,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: cc.coopersoft:common-cloud-spring-boot-starter:1.0.27" level="project" />
+    <orderEntry type="library" name="Maven: cc.coopersoft:common-cloud-spring-boot-starter:1.0.28" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.5" level="project" />
-    <orderEntry type="library" name="Maven: cc.coopersoft:common-construct:2.2.33" level="project" />
+    <orderEntry type="library" name="Maven: cc.coopersoft:common-construct:2.2.43" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.4" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />

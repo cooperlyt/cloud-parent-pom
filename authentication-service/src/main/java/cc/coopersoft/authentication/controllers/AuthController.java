@@ -62,4 +62,9 @@ public class AuthController {
     public boolean emailIsExists(@PathVariable("email") String email){
         return userService.emailIsExists(email);
     }
+
+    @RequestMapping(value = "/user/{id}/name", method = RequestMethod.GET)
+    public String getUserName(@PathVariable("id") String id){
+        return "{\"user_name\":\"" + id + "\" , \"name\":\"" + userService.findUser(id).getName() + "\"}";
+    }
 }

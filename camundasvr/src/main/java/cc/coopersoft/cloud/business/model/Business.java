@@ -57,4 +57,5 @@ public class Business extends cc.coopersoft.common.business.Business<BusinessDes
     public BusinessDescription getDescription(){return super.getDescription();}
 
 
+
 }

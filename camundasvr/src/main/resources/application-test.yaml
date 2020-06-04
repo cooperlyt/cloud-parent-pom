@@ -3,7 +3,7 @@ logging:
     com.netflix: WARN
     org.springframework.web: WARN
     cc.coopersoft: DEBUG
-
+    org.camunda.bpm.engine.impl.persistence.entity: DEBUG
 
 security:
   oauth2:

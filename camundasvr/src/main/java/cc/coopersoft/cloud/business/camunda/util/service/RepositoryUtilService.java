@@ -1,11 +1,13 @@
 package cc.coopersoft.cloud.business.camunda.util.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.rest.dto.task.TaskDto;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.ExtensionElements;
 import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaProperties;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaProperty;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class RepositoryUtilService {
 
     private final RepositoryService repositoryService;
@@ -33,9 +36,13 @@ public class RepositoryUtilService {
         Collection<UserTask> userTaskDefs = bpmnModelInstance.getModelElementsByType(UserTask.class);
         for (UserTask userTaskDef : userTaskDefs) {
             if (userTaskDef.getId().equals(taskDefinitionKey)) {
-                CamundaProperties extensionsProperty = userTaskDef.getExtensionElements()//
-                        .getElementsQuery()//
-                        .filterByType(CamundaProperties.class)//
+                ExtensionElements extensionElements = userTaskDef.getExtensionElements();
+                if (extensionElements == null){
+                    return null;
+                }
+                CamundaProperties extensionsProperty = extensionElements
+                        .getElementsQuery()
+                        .filterByType(CamundaProperties.class)
                         .singleResult();
                 return extensionsProperty.getCamundaProperties();
 

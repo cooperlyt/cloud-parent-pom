@@ -19,9 +19,10 @@ public class FireBusinessService {
 
     public Business start(long businessId, String defineId, BusinessDescription description){
         Map<String,Object> variables = new HashMap<>();
+        variables.putAll(description.getDescriptionMap());
         variables.put("reapply",false);
         variables.put("approved",true);
-        variables.put("description",description.getDescription());
+        //variables.put("description",description.getDescription());
         variables.put("define", defineId);
         variables.put("_key",description.getKeys());
         variables.put("_full",BusinessDescription.Source.Outside.equals(description.getSource()));

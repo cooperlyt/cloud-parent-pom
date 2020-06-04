@@ -115,14 +115,14 @@ public class BusinessService {
         business.setDefine(defineId);
         business.setName(define.getName());
 
-        try {
-            Template template = new Template("strTpl", define.getDescription(), new Configuration(new Version("2.3.26")));
-            StringWriter stringWriter = new StringWriter();
-            template.process(description.getDescriptionMap(), stringWriter);
-            description.setDescription(stringWriter.toString());
-        }catch (IOException | TemplateException e){
-            throw new IllegalArgumentException("description fail!",e);
-        }
+//        try {
+//            Template template = new Template("strTpl", define.getDescription(), new Configuration(new Version("2.3.26")));
+//            StringWriter stringWriter = new StringWriter();
+//            template.process(description.getDescriptionMap(), stringWriter);
+//            description.setDescription(stringWriter.toString());
+//        }catch (IOException | TemplateException e){
+//            throw new IllegalArgumentException("description fail!",e);
+//        }
 
         description.setId(business.getId());
         description.setBusiness(business);

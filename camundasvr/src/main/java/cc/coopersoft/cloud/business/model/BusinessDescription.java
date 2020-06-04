@@ -1,5 +1,6 @@
 package cc.coopersoft.cloud.business.model;
 
+import cc.coopersoft.common.json.JpaConverterJson;
 import cc.coopersoft.common.json.JsonRawDeserializer;
 import cc.coopersoft.common.json.JsonRawSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,16 +24,12 @@ import java.util.Set;
 @Access(AccessType.PROPERTY)
 public class BusinessDescription extends cc.coopersoft.common.business.BusinessDescription<BusinessKey> {
 
-
     @Id
     @JoinColumn(name = "ID", unique = true, nullable = false)
     @Access(AccessType.FIELD)
     @JsonIgnore
     public Long id;
 
-    @Column(name = "DESCRIPTION")
-    @Access(AccessType.FIELD)
-    private String description;
 
     @JsonDeserialize(using = JsonRawDeserializer.class)
     @JsonSerialize(using = JsonRawSerialize.class)
@@ -42,11 +39,13 @@ public class BusinessDescription extends cc.coopersoft.common.business.BusinessD
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "_KEYS", length = 1024)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getKeys(){return super.getKeys();}
 
-    @Transient
+    @Column(name = "DESCRIPTION")
+    @Convert(converter = JpaConverterJson.class)
+    @Override
     public Map<String, Object> getDescriptionMap(){
         return super.getDescriptionMap();
     }
