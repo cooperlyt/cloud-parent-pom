@@ -48,3 +48,13 @@ spring:
         ddl-auto: "none"
         enable_lazy_load_no_trans: true
         dialect: "org.hibernate.dialect.MySQL5Dialect"
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server:
+            rmqnamesrv:9876
+      bindings:
+        fireCheckBusiness:
+          destination: fireCheckBusinessTopic
+          content-type: application/json

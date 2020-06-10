@@ -62,6 +62,7 @@ public class BusinessService {
 
     @EventListener
     public void notify(final TaskEvent taskEvent) {
+
         log.debug("task event: id: {}; name: {}; eventName:{}; executionId:{}; caseExecutionId:{}; owner: {}; taskDefinitionKey:{};" +
                         "getAssignee:{}; getCaseDefinitionId:{};getCaseInstanceId:{} " ,
                 taskEvent.getId(), taskEvent.getName(),
@@ -70,7 +71,16 @@ public class BusinessService {
                 taskEvent.getTaskDefinitionKey() , taskEvent.getAssignee(),
                 taskEvent.getCaseDefinitionId(),
                 taskEvent.getCaseInstanceId());
+        if ("complete".equals(taskEvent.getEventName())){
 
+            BusinessOperation operation = createOperation(
+                    businessRepository.findById(Long.parseLong(taskEvent.getCaseInstanceId())).orElseThrow(),
+                        BusinessOperation.Type.TASK,
+                        taskEvent.getName(),
+                        null
+                    );
+            operationRepository.save(operation);
+        }
     }
 
     @EventListener

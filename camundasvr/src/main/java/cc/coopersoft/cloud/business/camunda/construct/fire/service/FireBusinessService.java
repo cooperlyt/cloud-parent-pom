@@ -1,20 +1,30 @@
 package cc.coopersoft.cloud.business.camunda.construct.fire.service;
 
+import cc.coopersoft.cloud.business.camunda.construct.fire.delegate.FireCheckBusinessChannel;
 import cc.coopersoft.cloud.business.model.Business;
 import cc.coopersoft.cloud.business.model.BusinessDescription;
 import cc.coopersoft.cloud.business.services.BusinessService;
+import cc.coopersoft.common.construct.fire.business.Messages;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
+@EnableBinding(FireCheckBusinessChannel.class)
 public class FireBusinessService {
 
     private final BusinessService businessService;
 
-    public FireBusinessService(BusinessService businessService) {
+    private final FireCheckBusinessChannel fireCheckBusinessChannel;
+
+    public FireBusinessService(BusinessService businessService, FireCheckBusinessChannel fireCheckBusinessChannel) {
         this.businessService = businessService;
+        this.fireCheckBusinessChannel = fireCheckBusinessChannel;
     }
 
     public Business start(long businessId, String defineId, BusinessDescription description){
@@ -30,4 +40,10 @@ public class FireBusinessService {
 
         return businessService.start(businessId,defineId,description, variables);
     }
+
+    public void businessNotify(Messages messages){
+        fireCheckBusinessChannel.output().send(MessageBuilder.withPayload(messages).build());
+        log.debug("notify: fire check notify: " +  messages);
+    }
+
 }

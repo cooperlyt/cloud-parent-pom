@@ -5,16 +5,15 @@ import cc.coopersoft.common.construct.fire.business.Messages;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoAcceptDelegate extends MessageNotifyDelegate {
+public class ReviewDelegate extends MessageNotifyDelegate {
 
-
-    public NoAcceptDelegate(FireBusinessService fireBusinessService) {
+    public ReviewDelegate(FireBusinessService fireBusinessService) {
         super(fireBusinessService);
     }
 
     @Override
     protected Messages.Type getType() {
-        return Messages.Type.NoAccept;
+        return Messages.Type.Review;
     }
 
 }

@@ -33,6 +33,19 @@ spring:
         ddl-auto: "none"
         enable_lazy_load_no_trans: true
         dialect: "org.hibernate.dialect.MySQL5Dialect"
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: fireCheckBusinessTopic
+          content-type: application/json
+          group: fireBusinessGroup
+      rocketmq:
+        binder:
+          name-server:
+            rmqnamesrv:9876
+
+
 
 uid:
   timeBits: 30             # 时间位, 默认:30
@@ -47,5 +60,9 @@ uid:
     #scheduleInterval: 60    # 默认:不配置此项, 即不实用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
 
 
+org:
+  name: "东港市住房和城乡建设局"
+
 report:
-  address: "http://mediaservice:6699/upload/"
+  mark: "东港市住房和城乡建设局"
+  address:  "http://mediaservice:6699/upload/"
