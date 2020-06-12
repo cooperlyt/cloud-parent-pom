@@ -48,8 +48,6 @@ public class MasterController {
         return userService.addUser(user).getUsername();
     }
 
-
-
     @RequestMapping(value = "/user/del/{username}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String delUser(@PathVariable("username") String username){

@@ -2,9 +2,12 @@ package cc.coopersoft.authentication.services;
 
 import cc.coopersoft.authentication.dto.UserDao;
 import cc.coopersoft.authentication.entity.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 public class TrustUserService {
@@ -21,76 +24,51 @@ public class TrustUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
+    private boolean hasTypeRole(String type){
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return authentication.getAuthorities().stream()
+                .map(res -> res.getAuthority())
+                .map(res -> {if (res.startsWith("ROLE_"))  return res.substring(5);  else return res; })
+                .collect(Collectors.toSet()).contains(type);
+    }
+
     @Transactional
-    public User addUser(String type, String org, User user, boolean manager){
+    public User addUser(String type, User user){
+        if (!hasTypeRole(type)){
+            throw new IllegalArgumentException("no role");
+        }
+
+
         if (userRepository.existsById(user.getUsername())){
             throw new IllegalArgumentException("use is exists");
         }
-        if (!roleService.hasTrustMasterManager(type)){
-            throw new IllegalArgumentException("not  manager role for type:" + type);
-        }
-
-        user.getAuthorities().addAll(roleService.getTrustRoles(type,org,manager));
-
+        user.getAuthorities().add(roleService.getTrustRole());
+        user.getAuthorities().add(roleService.getRole(type));
         return userRepository.save(user);
 
     }
 
     @Transactional
-    public User addUser(String type, String org, User user){
-       if (userRepository.existsById(user.getUsername())){
-           throw new IllegalArgumentException("use is exists");
-       }
-
-       if (!roleService.hasTrustManager(type,org)){
-           throw new IllegalArgumentException("not trust manager role for:" + org);
-       }
-
-       user.getAuthorities().addAll(roleService.getTrustRoles(type,org,false));
-
-       return userRepository.save(user);
-    }
-
-    private User editUser(String type, String org, String username){
-        if (!roleService.hasTrustMasterManager(type) && !roleService.hasTrustManager(type,org)){
-            throw new IllegalArgumentException("not  manager role for type:" + type);
+    public User resetPassword(String type, String username){
+        if (!hasTypeRole(type)){
+            throw new IllegalArgumentException("no role");
         }
-        return userRepository.findById(username).orElseGet(() -> {throw new IllegalArgumentException("user not found !" + username);});
-    }
-
-    @Transactional
-    public void upTrustManager(String type, String org, String username){
-
-        User user = editUser(type,org,username);
-        if (roleService.upTrust(type,org,user.getAuthorities())){
-            userRepository.save(user);
-        }
-    }
-
-    @Transactional
-    public void downTrustManager(String type, String org, String username){
-        User user = editUser(type,org,username);
-        if (roleService.downTrust(type,org,user.getAuthorities())){
-            userRepository.save(user);
-        }
-    }
-
-    @Transactional
-    public void del(String type,String org, String username){
-        User user = editUser(type,org,username);
-        if (roleService.delTrust(type,org,user.getAuthorities())){
-            if (user.getAuthorities().isEmpty()){
-                userRepository.delete(user);
-            }else{
-                userRepository.save(user);
-            }
-        }
-    }
-
-    @Transactional
-    public void resetPassword(String type, String org, String username){
-        User user = editUser(type,org,username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         user.setPassword(passwordEncoder.encode(user.getPhone()));
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User userEnabled(String type, String username, boolean enabled){
+        if (!hasTypeRole(type)){
+            throw new IllegalArgumentException("no role");
+        }
+        User user = userRepository.findByUsername(username).orElseThrow();
+
+        user.setEnabled(enabled);
+        return userRepository.save(user);
     }
 
 }
