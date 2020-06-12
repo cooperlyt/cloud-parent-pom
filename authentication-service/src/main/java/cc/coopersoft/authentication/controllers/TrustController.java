@@ -1,12 +1,10 @@
 package cc.coopersoft.authentication.controllers;
 
-import cc.coopersoft.authentication.entity.User;
 import cc.coopersoft.authentication.services.TrustUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
+// 用户先自行注册, 再申请加入机构, 机构点同意加ROLE
 
 @RestController
 @RequestMapping(value = "/admin/ts")

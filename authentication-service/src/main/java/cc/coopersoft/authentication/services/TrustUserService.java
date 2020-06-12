@@ -21,7 +21,7 @@ public class TrustUserService {
     private final RoleService roleService;
     private final UserDao userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+
 
     private User getTrustUser(String username){
         User user = userRepository.findByUsername(username).orElseThrow();
@@ -35,11 +35,10 @@ public class TrustUserService {
         return user;
     }
 
-    public TrustUserService(RoleService roleService, UserDao userRepository, PasswordEncoder passwordEncoder, UserService userService) {
+    public TrustUserService(RoleService roleService, UserDao userRepository, PasswordEncoder passwordEncoder) {
         this.roleService = roleService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userService = userService;
     }
 
     @Transactional
@@ -91,13 +90,21 @@ public class TrustUserService {
         return userRepository.save(user);
     }
 
-    @Transactional
-    public User addRootUser(String org, User user){
 
-        if (!userService.validUser(user)){
-            throw new IllegalArgumentException("user exists");
+
+    @Transactional
+    public User addRootUser(String org, String name, String phone, String id){
+        String username = id;
+        while (userRepository.existsByUsername(username)){
+            username = "T" + username;
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User user = new User();
+        user.setEnabled(true);
+        user.setUsername(username);
+        user.setName(id);
+        user.setPassword(passwordEncoder.encode(id));
+
         user.getAuthorities().add(roleService.getSystemRole(TRUST_ROLE_PREFIX + org));
         user.getAuthorities().add(roleService.getSystemRole(TRUST_MGR_ROLE_PREFIX + org));
         user.getAuthorities().add(roleService.getTrustRole());

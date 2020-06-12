@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 // need has Master,  Trust type eg: JOIN_CORP
@@ -19,10 +20,10 @@ public class TrustMgrController {
         this.trustUserService = trustUserService;
     }
 
-    @RequestMapping(value = "/add/{type}" , method = RequestMethod.POST)
+    @RequestMapping(value = "/add/{org}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public String addUser(@PathVariable("type") String type,  @Valid @RequestBody User user){
-        return trustUserService.addRootUser(type,user).getUsername();
+    public String addUser(@PathVariable("org") String org, @RequestBody Map<String,String> user){
+        return trustUserService.addRootUser(org,user.get("name"),user.get("phone"),user.get("username")).getUsername();
     }
 
     @RequestMapping(value = "/reset/{username}", method = RequestMethod.PUT)
