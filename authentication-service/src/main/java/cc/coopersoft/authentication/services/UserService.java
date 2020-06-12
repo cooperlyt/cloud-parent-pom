@@ -122,6 +122,18 @@ public class UserService implements UserDetailsService {
         userRepository.save(user.get());
     }
 
+    public boolean validUser(User user){
+       return !(userIsExists(user.getUsername()) || phoneIsExists(user.getPhone()) || emailIsExists(user.getEmail()));
+    }
+
+    @Transactional
+    public User registerUser(User user){
+        if (!validUser(user)){
+            throw new IllegalArgumentException("user is exists!");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
 
 
 }

@@ -14,7 +14,7 @@ public class UserResourceConfiguration extends ResourceServerConfigurerAdapter {
         //.access("hasAuthority('Master') and hasAuthority('') ")
         http.requestMatchers().antMatchers("/admin/**").and()
                 .authorizeRequests()
-                .antMatchers("/admin/trust/**").hasAuthority("Master")
+                .antMatchers("/admin/trust/**").access("hasAuthority('Master') and hasAuthority('CONSTRUCT.CORP') ")
                 .antMatchers( "/admin/hr/**").access("hasAuthority('Master') and hasAuthority('HR') ")
                 .antMatchers("/admin/ts/**").hasAuthority("Trust")
                 .anyRequest().authenticated();

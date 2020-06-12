@@ -3,6 +3,7 @@ package cc.coopersoft.cloud.business.camunda.security.filter.rest;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.rest.util.EngineUtil;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -61,7 +62,7 @@ public class StatelessUserAuthenticationFilter implements Filter {
         org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         groupIds = authentication.getAuthorities().stream()
-                .map(res -> res.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .map(res -> {if (res.startsWith("ROLE_"))  return res.substring(5);  else return res; }) // Strip "ROLE_"
                 .collect(Collectors.toList());
 

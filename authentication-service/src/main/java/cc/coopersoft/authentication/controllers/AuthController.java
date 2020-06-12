@@ -1,5 +1,6 @@
 package cc.coopersoft.authentication.controllers;
 
+import cc.coopersoft.authentication.entity.User;
 import cc.coopersoft.authentication.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -66,5 +67,10 @@ public class AuthController {
     @RequestMapping(value = "/user/{id}/name", method = RequestMethod.GET)
     public String getUserName(@PathVariable("id") String id){
         return "{\"user_name\":\"" + id + "\" , \"name\":\"" + userService.findUser(id).getName() + "\"}";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(User user){
+       return userService.registerUser(user).getUsername();
     }
 }

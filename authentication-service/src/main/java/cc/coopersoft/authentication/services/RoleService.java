@@ -2,6 +2,7 @@ package cc.coopersoft.authentication.services;
 
 import cc.coopersoft.authentication.dto.RoleDao;
 import cc.coopersoft.authentication.entity.Role;
+import cc.coopersoft.authentication.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,10 @@ public class RoleService {
 //    private static final String TRUST_ROLE_PREFIX = SYSTEM_ROLE_PREFIX + "T_U_";
 //    private static final String TRUST_MANAGER_PREFIX = SYSTEM_ROLE_PREFIX + "T_M_";
 
-    private static final String TRUST_ROLE = "Trust";
+
+    //   三个角色  Trust  , T_{ORG} , T_M_{ORG}
+
+    public static final String TRUST_ROLE = "Trust";
     public static final String MASTER_ROLE = "Master";
 
     private final RoleDao roleRepository;
@@ -35,6 +39,8 @@ public class RoleService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     }
+
+
 
 //    public boolean hasTrustManager(String type, String org){
 //       return  roleSet().contains(TRUST_MANAGER_PREFIX + type + "_" + org);
@@ -76,6 +82,10 @@ public class RoleService {
 
     public Role getTrustRole(){
         return roleRepository.findById(TRUST_ROLE).orElseGet(() -> createSystemRole(TRUST_ROLE));
+    }
+
+    public Role getSystemRole(String name){
+        return roleRepository.findById(name).orElseGet(() -> createSystemRole(name));
     }
 
     public Role getRole(String name){

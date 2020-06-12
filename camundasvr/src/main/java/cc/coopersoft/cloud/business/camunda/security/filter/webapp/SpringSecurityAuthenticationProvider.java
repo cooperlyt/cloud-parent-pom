@@ -4,6 +4,7 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.rest.security.auth.AuthenticationResult;
 import org.camunda.bpm.engine.rest.security.auth.impl.ContainerBasedAuthenticationProvider;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class SpringSecurityAuthenticationProvider extends ContainerBasedAuthenti
         List<String> groupIds;
 
         groupIds = authentication.getAuthorities().stream()
-                .map(res -> res.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .map(res -> res.substring(5)) // Strip "ROLE_"
                 .collect(Collectors.toList());
 

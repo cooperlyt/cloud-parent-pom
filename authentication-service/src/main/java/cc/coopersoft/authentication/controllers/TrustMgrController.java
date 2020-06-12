@@ -22,27 +22,27 @@ public class TrustMgrController {
     @RequestMapping(value = "/add/{type}" , method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String addUser(@PathVariable("type") String type,  @Valid @RequestBody User user){
-        return trustUserService.addUser(type,user).getUsername();
+        return trustUserService.addRootUser(type,user).getUsername();
     }
 
-    @RequestMapping(value = "/reset/{type}/{username}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/reset/{username}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String resetPassword(@PathVariable("type") String type,  @PathVariable("username") String username){
-        trustUserService.resetPassword(type,username);
+    public String resetPassword( @PathVariable("username") String username){
+        trustUserService.resetPassword(username);
         return username;
     }
 
-    @RequestMapping(value = "/enabled/{type}/{username}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/enabled/{username}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String enabled(@PathVariable("type") String type,  @PathVariable("username") String username){
-        trustUserService.userEnabled(type,username,true);
+    public String enabled(@PathVariable("username") String username){
+        trustUserService.userEnabled(username,true);
         return username;
     }
 
-    @RequestMapping(value = "/disabled/{type}/{username}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/disabled/{username}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String disabled(@PathVariable("type") String type,  @PathVariable("username") String username){
-        trustUserService.userEnabled(type,username,false);
+    public String disabled( @PathVariable("username") String username){
+        trustUserService.userEnabled(username,false);
         return username;
     }
 }

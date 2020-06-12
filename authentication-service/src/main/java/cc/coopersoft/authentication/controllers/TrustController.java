@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-// need Trust type mgr , org  id role eg. Trust,  M.0001, T.0001
 @RestController
 @RequestMapping(value = "/admin/ts")
 public class TrustController {
@@ -19,11 +18,31 @@ public class TrustController {
         this.trustUserService = trustUserService;
     }
 
-    @RequestMapping(value = "/add/{type}" , method = RequestMethod.POST)
+    @RequestMapping(value = "{org}/add/{username}" , method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public String addUser(@PathVariable("type") String type,  @Valid @RequestBody User user){
-        return trustUserService.addUser(type,user).getUsername();
+    public String joinUser(@PathVariable("org") String org,@PathVariable("username") String username){
+        trustUserService.addTrustOrgRole(username,org);
+        return username;
     }
 
+    @RequestMapping(value = "{org}/mgr/add/{username}" , method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.CREATED)
+    public String joinMgr(@PathVariable("org") String org,@PathVariable("username") String username){
+        trustUserService.addTrustOrgMgrRole(username,org);
+        return username;
+    }
 
+    @RequestMapping(value = "{org}/remove/{username}" , method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public String removeUser(@PathVariable("org") String org,@PathVariable("username") String username){
+        trustUserService.removeTrustOrgRole(username,org);
+        return username;
+    }
+
+    @RequestMapping(value = "{org}/mgr/remove/{username}" , method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public String removeMgr(@PathVariable("org") String org,@PathVariable("username") String username){
+        trustUserService.removeTrustOrgMgrRole(username,org);
+        return username;
+    }
 }
