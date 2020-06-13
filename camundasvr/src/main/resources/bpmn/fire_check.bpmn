@@ -21,6 +21,7 @@
         <camunda:properties>
           <camunda:property name="check" value="approved" />
           <camunda:property name="view" value="fire_check_view" />
+          <camunda:property name="edit" value="fire_apply_edit" />
         </camunda:properties>
         <camunda:inputOutput>
           <camunda:inputParameter name="Input_0ho5lt3" />
@@ -36,6 +37,7 @@
         <camunda:properties>
           <camunda:property name="view" value="fire_check_view" />
           <camunda:property name="check" value="approved" />
+          <camunda:property name="edit" value="fire_check_opinion" />
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1u6wqw8</bpmn:incoming>

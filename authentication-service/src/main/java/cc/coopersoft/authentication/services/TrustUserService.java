@@ -102,7 +102,8 @@ public class TrustUserService {
         User user = new User();
         user.setEnabled(true);
         user.setUsername(username);
-        user.setName(id);
+        user.setName(name);
+        user.setPhone(phone);
         user.setPassword(passwordEncoder.encode(id));
 
         user.getAuthorities().add(roleService.getSystemRole(TRUST_ROLE_PREFIX + org));
