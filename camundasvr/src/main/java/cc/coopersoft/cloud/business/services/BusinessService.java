@@ -115,6 +115,9 @@ public class BusinessService {
         return result;
     }
 
+    public boolean existsBusiness(long id){
+        return businessRepository.existsById(id);
+    }
 
     @Transactional
     public Business start(long businessId, String defineId, BusinessDescription description,Map<String, Object> variables){

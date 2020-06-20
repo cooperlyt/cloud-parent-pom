@@ -22,6 +22,17 @@ import java.util.Optional;
 @Service
 public class DocumentService {
 
+    /** TODO
+     *      trust 权限
+     *      document 加一个业务表 存 business id 和 corp id
+     *
+     *      init的时候加入所属CORP  ID , init 由fire service 调用 由 fire service 验证
+     *      业务启动时去掉所属 CORP ID
+     *
+     *      操作时都要确定 corp
+     *
+     */
+
     private static final String DOC_CHANGE_VARIABLE_NAME = "change_doc";
 
     @Resource

@@ -24,7 +24,6 @@ public class BusinessHandleController {
         this.documentService = documentService;
     }
 
-    //TODO write a variable into task valid role
 
     @RequestMapping(value = "/task/{tid}/doc/add", method = RequestMethod.POST)
     public BusinessDocument addDocument(@PathVariable("tid") String taskId,
