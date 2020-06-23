@@ -44,6 +44,7 @@ CREATE TABLE _user
     enabled boolean NOT NULL,
     email varchar(32) UNIQUE NULL,
     phone varchar(16) UNIQUE NOT NULL ,
+    join_time timestamp NOT NULL,
     PRIMARY KEY (username)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 

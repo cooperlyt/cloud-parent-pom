@@ -36,6 +36,12 @@ public class MasterController {
         return userService.listUsers();
     }
 
+    @RequestMapping(value = "/user/search", method = RequestMethod.GET)
+    public List<User> searchUser(@RequestParam(value = "key", required = false) String key,
+                                 @RequestParam(value = "enable") boolean onlyEnable){
+        return userService.searchUser(key, onlyEnable);
+    }
+
     @RequestMapping(value = "/user/roles/{username}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Role> ListRoles(@PathVariable("username") String username){

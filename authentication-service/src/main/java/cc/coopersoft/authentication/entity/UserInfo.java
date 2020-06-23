@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @MappedSuperclass
 public class UserInfo {
@@ -34,6 +33,10 @@ public class UserInfo {
 
     @Column(nullable = false)
     private boolean enabled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "join_time", nullable = false)
+    private Date joinTime;
 
     @Email
     @Size(max = 32)
@@ -119,6 +122,14 @@ public class UserInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Date getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(Date joinTime) {
+        this.joinTime = joinTime;
     }
 
     @Override

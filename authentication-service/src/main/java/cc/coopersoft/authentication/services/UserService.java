@@ -4,15 +4,23 @@ import cc.coopersoft.authentication.dto.UserDao;
 import cc.coopersoft.authentication.entity.Role;
 import cc.coopersoft.authentication.entity.User;
 import cc.coopersoft.authentication.exception.PasswordErrorException;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +47,30 @@ public class UserService implements UserDetailsService {
 
     public List<User> listUsers(){
         return userRepository.findDistinctByAuthoritiesAuthority(RoleService.MASTER_ROLE);
+    }
+
+    public List<User> searchUser(String key, boolean onlyEnable){
+        Specification<User> specification = (Specification<User>)(root, criteriaQuery, cb) -> {
+
+            List<Predicate> predicates = new LinkedList<>();
+            Join<User,Role> roleJoin = root.join("authorities", JoinType.LEFT);
+            predicates.add(cb.and(cb.equal(roleJoin.get("authority"),RoleService.MASTER_ROLE)));
+            if (onlyEnable){
+                predicates.add(cb.and(cb.isTrue(root.get("enabled"))));
+            }
+            if (StringUtils.isNotBlank(key)){
+                List<Predicate> keyPredicate = new LinkedList<>();
+                String _k = key + "%";
+                keyPredicate.add(cb.equal(root.get("username"), key));
+                keyPredicate.add(cb.like(root.get("name"), _k));
+                keyPredicate.add(cb.like(root.get("email"), _k));
+                keyPredicate.add(cb.like(root.get("phone"),_k));
+                predicates.add(cb.or(keyPredicate.toArray(new Predicate[0])));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return  userRepository.findAll(specification, Sort.by(Sort.Direction.DESC, "joinTime"));
     }
 
     public boolean userIsExists(String username){
@@ -115,7 +147,11 @@ public class UserService implements UserDetailsService {
         if (user.isEmpty()){
             throw new AssertionError();
         }
-        if (!user.get().getPassword().equals(passwordEncoder.encode(oldPassword))){
+
+
+
+        if (!passwordEncoder.matches(oldPassword,user.get().getPassword())){
+
             throw new PasswordErrorException();
         }
         user.get().setPassword(passwordEncoder.encode(newPassword));
