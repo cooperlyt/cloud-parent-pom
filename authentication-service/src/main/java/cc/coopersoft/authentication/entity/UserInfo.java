@@ -21,9 +21,8 @@ public class UserInfo {
     private String username;
 
     @Column(nullable = false)
-    @NotBlank
     @Size(max = 64)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)

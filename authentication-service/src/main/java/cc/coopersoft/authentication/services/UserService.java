@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
             List<Predicate> predicates = new LinkedList<>();
             Join<User,Role> roleJoin = root.join("authorities", JoinType.LEFT);
             predicates.add(cb.and(cb.equal(roleJoin.get("authority"),RoleService.MASTER_ROLE)));
-            if (onlyEnable){
+            if (!onlyEnable){
                 predicates.add(cb.and(cb.isTrue(root.get("enabled"))));
             }
             if (StringUtils.isNotBlank(key)){
@@ -129,6 +129,7 @@ public class UserService implements UserDetailsService {
     public User addUser(User user){
         user.getAuthorities().add(roleService.getMasterRole());
         user.setPassword(passwordEncoder.encode(user.getPhone()));
+        user.setEnabled(true);
         return userRepository.save(user);
     }
 

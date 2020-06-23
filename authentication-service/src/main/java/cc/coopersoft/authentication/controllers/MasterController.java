@@ -42,7 +42,7 @@ public class MasterController {
         return userService.searchUser(key, onlyEnable);
     }
 
-    @RequestMapping(value = "/user/roles/{username}")
+    @RequestMapping(value = "/user/roles/{username}", method = RequestMethod.GET)
     public List<UserService.UserRole> userRoles(@PathVariable("username") String username){
         return userService.userRoles(username);
     }
@@ -53,6 +53,7 @@ public class MasterController {
     public String addUser(@Valid @RequestBody User user){
         return userService.addUser(user).getUsername();
     }
+
 
     @RequestMapping(value = "/user/del/{username}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
