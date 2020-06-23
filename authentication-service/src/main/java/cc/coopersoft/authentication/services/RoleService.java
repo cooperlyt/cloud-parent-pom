@@ -92,6 +92,11 @@ public class RoleService {
         return roleRepository.findById(name).orElseThrow();
     }
 
+
+    public List<Role> roles() {
+        return roleRepository.findBySystemIsFalse();
+    }
+
 //    public List<Role> getTrustRoles(String type, String org, boolean manager){
 //        List<Role> result = new ArrayList<>(3);
 //        result.add(getTrustRole());

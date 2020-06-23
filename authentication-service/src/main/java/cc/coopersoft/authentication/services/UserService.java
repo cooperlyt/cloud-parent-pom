@@ -30,6 +30,35 @@ public class UserService implements UserDetailsService {
 
 
 
+    public static class UserRole{
+        private boolean has;
+        private Role role;
+
+        public UserRole() {
+        }
+
+        public UserRole(boolean has, Role role) {
+            this.has = has;
+            this.role = role;
+        }
+
+        public boolean isHas() {
+            return has;
+        }
+
+        public void setHas(boolean has) {
+            this.has = has;
+        }
+
+        public Role getRole() {
+            return role;
+        }
+
+        public void setRole(Role role) {
+            this.role = role;
+        }
+    }
+
     private final PasswordEncoder passwordEncoder;
     private final UserDao userRepository;
     private final RoleService roleService;
@@ -87,6 +116,13 @@ public class UserService implements UserDetailsService {
 
     public List<Role> listRoles(String userName){
         return userRepository.findById(userName).map(u -> u.getAuthorities().stream().filter(r -> !r.isSystem()).collect(Collectors.toList())).orElseThrow(() ->  new IllegalArgumentException("user not found!"));
+    }
+
+    public List<UserRole> userRoles(String username){
+        List<Role> hasRoles = listRoles(username);
+        List<UserRole> result = hasRoles.stream().map(r -> new UserRole(true,r)).collect(Collectors.toList());
+        result.addAll(roleService.roles().stream().filter(r -> !hasRoles.contains(r)).map(r -> new UserRole(false,r)).collect(Collectors.toList()));
+        return result;
     }
 
     @Transactional

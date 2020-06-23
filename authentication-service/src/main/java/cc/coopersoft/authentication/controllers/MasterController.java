@@ -42,11 +42,11 @@ public class MasterController {
         return userService.searchUser(key, onlyEnable);
     }
 
-    @RequestMapping(value = "/user/roles/{username}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<Role> ListRoles(@PathVariable("username") String username){
-        return userService.listRoles(username);
+    @RequestMapping(value = "/user/roles/{username}")
+    public List<UserService.UserRole> userRoles(@PathVariable("username") String username){
+        return userService.userRoles(username);
     }
+
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
