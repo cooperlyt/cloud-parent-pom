@@ -1,0 +1,13 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: gatewayservice
+  profiles:
+    active:
+      test
+  cloud:
+    config:
+      uri: http://192.168.1.21:8888
+      enabled: true

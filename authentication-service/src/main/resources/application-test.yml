@@ -11,13 +11,10 @@ eureka:
     preferIpAddress: true
   client:
     registerWithEureka: false
-    fetchRegistry: true
+    fetchRegistry: false
     serviceUrl:
       defaultZone: http://192.168.1.21:8761/eureka/
 
-server:
-  servlet:
-    contextPath: /auth
 
 spring:
   datasource:

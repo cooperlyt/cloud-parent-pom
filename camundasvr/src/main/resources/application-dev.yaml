@@ -1,6 +1,0 @@
-logging:
-  level:
-    com.netflix: WARN
-    org.springframework.web: WARN
-    cc.coopersoft: DEBUG
-

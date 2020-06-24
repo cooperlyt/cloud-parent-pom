@@ -1,15 +1,13 @@
 package cc.coopersoft.authentication.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cc.coopersoft.authentication.services.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -20,23 +18,30 @@ import java.util.Arrays;
 @Configuration
 public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserService userDetailsService;
 
-    @Autowired
-    private TokenStore tokenStore;
+    private final TokenStore tokenStore;
 
-    @Autowired
-    private DefaultTokenServices tokenServices;
+    private final JwtAccessTokenConverter jwtAccessTokenConverter;
 
-    @Autowired
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    private final TokenEnhancer jwtTokenEnhancer;
 
-    @Autowired
-    private TokenEnhancer jwtTokenEnhancer;
+    private final PasswordEncoder passwordEncoder;
+
+    public JWTOAuth2Config(AuthenticationManager authenticationManager,
+                           UserService userDetailsService,
+                           TokenStore tokenStore,
+                           JwtAccessTokenConverter jwtAccessTokenConverter,
+                           TokenEnhancer jwtTokenEnhancer, PasswordEncoder passwordEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.tokenStore = tokenStore;
+        this.jwtAccessTokenConverter = jwtAccessTokenConverter;
+        this.jwtTokenEnhancer = jwtTokenEnhancer;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @Override
@@ -58,17 +63,17 @@ public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
 
         clients.inMemory()
                 .withClient("archives")
-                .secret(new BCryptPasswordEncoder().encode("thisissecret"))
+                .secret(passwordEncoder.encode("thisissecret"))
                 .authorizedGrantTypes("refresh_token","password","client_credentials")
-                .scopes("webclient","mobileclient")
+                .scopes("webclient","mobileclient") //.accessTokenValiditySeconds()
         .and()
-        .withClient("register")
-        .secret(new BCryptPasswordEncoder().encode("thisissecret"))
-        .authorizedGrantTypes("refresh_token","password","client_credentials")
-        .scopes("webclient","mobileclient")
+            .withClient("register")
+            .secret(passwordEncoder.encode("thisissecret"))
+            .authorizedGrantTypes("refresh_token","password","client_credentials")
+            .scopes("webclient","mobileclient")
         .and()
-        .withClient("attr")
-                .secret(new BCryptPasswordEncoder().encode("outsidesecret"))
+            .withClient("attr")
+                .secret(passwordEncoder.encode("outsidesecret"))
                 .authorizedGrantTypes("refresh_token","password","client_credentials")
                 .scopes("webclient","mobileclient");
     }

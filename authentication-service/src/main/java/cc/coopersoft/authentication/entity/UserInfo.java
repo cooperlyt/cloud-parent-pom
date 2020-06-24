@@ -1,14 +1,18 @@
 package cc.coopersoft.authentication.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @MappedSuperclass
 public class UserInfo {
+
 
     @Id
     @Column(nullable = false, unique = true)
@@ -17,8 +21,8 @@ public class UserInfo {
     private String username;
 
     @Column(nullable = false)
-    @NotBlank
     @Size(max = 64)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
@@ -29,6 +33,10 @@ public class UserInfo {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "join_time", nullable = false)
+    private Date joinTime;
+
     @Email
     @Size(max = 32)
     private String email;
@@ -37,8 +45,6 @@ public class UserInfo {
     @NotBlank
     private String phone;
 
-    @Size(max = 32)
-    private String org;
 
     public UserInfo() {
     }
@@ -117,11 +123,26 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public String getOrg() {
-        return org;
+    public Date getJoinTime() {
+        return joinTime;
     }
 
-    public void setOrg(String org) {
-        this.org = org;
+    public void setJoinTime(Date joinTime) {
+        this.joinTime = joinTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        return username.equals(userInfo.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
     }
 }

@@ -23,7 +23,6 @@ public class JWTTokenEnhancer implements TokenEnhancer {
 
         User user = userServiceDetail.findUser(authentication.getName());
         additionalInfo.put("name", user.getName());
-        additionalInfo.put("org", user.getOrg());
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
