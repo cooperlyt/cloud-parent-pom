@@ -21,8 +21,7 @@
     <module>eurekasvr</module>
     <module>zuulsvr</module>
     <module>authentication-service</module>
-    <module>camundasvr</module>
-      <module>gatewaysvr</module>
+    <module>gatewaysvr</module>
   </modules>
   <build>
     <plugins>
