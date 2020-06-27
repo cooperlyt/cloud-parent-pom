@@ -1,34 +1,5 @@
 version: '3'
 services:
-  eurekaserver:
-     image:   coopersoft/cloud-eurekasvr:latest
-     ports:
-         - "8761:8761"
-  configserver:
-      image: coopersoft/cloud-confsvr:latest
-      ports:
-         - "8888:8888"
-      volumes:
-        - "/home/docker/data/config:/config"
-      environment:
-         EUREKASERVER_PORT: 8761
-         EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
-         ENCRYPT_KEY:       "IMSYMMETRIC"
-      links:
-        - eurekaserver:discovery
-  gatewaysvr:
-      image: coopersoft/cloud-gatewaysvr:latest
-      ports:
-        - "5555:5555"
-      environment:
-        PROFILE: "default"
-        SERVER_PORT: "5555"
-        CONFIGSERVER_PORT: 8888
-        EUREKASERVER_PORT: 8761
-        CONFIGSERVER_URI: "http://configserver:8888"
-        EUREKASERVER_URI: "http://discovery:8761/eureka/"
-      links:
-        - eurekaserver:discovery
   database:
       image: coopersoft/mariadb-min:v1
 #      restart: always
@@ -39,7 +10,9 @@ services:
         - "/home/docker/data/db:/var/lib/mysql"
       environment:
         - MYSQL_ROOT_PASSWORD=p0stgr@s
-        - MYSQL_DATABASE=archives
+        - MYSQL_DATABASE=keycloak
+        - MYSQL_USER=keycloak
+        - MYSQL_PASSWORD=k@ycl0ck
         TZ: Asia/Shanghai
 #        - MYSQL_USER=testuser
 #        - MYSQL_PASSWORD=testpassword
@@ -53,7 +26,7 @@ services:
     ports:
       - "6699:6699"
     volumes:
-      - "/home/docker/data/weedfs:/data"
+      - "/home/data/weedfs:/data"
 
 
   redis:
@@ -104,22 +77,44 @@ services:
       - Drocketmq.namesrv.addr=rmqnamesrv:9876
       - Dcom.rocketmq.sendMessageWithVIPChannel=false
 
-  authenticationservice:
-      image: coopersoft/cloud-authentication-service:latest
-      ports:
-        - "8901:8901"
-      environment:
-        PROFILE: "default"
-        SERVER_PORT: "8901"
-        DATABASE_PORT:     3306
-        CONFIGSERVER_PORT: 8888
-        EUREKASERVER_PORT: 8761
-        CONFIGSERVER_URI: "http://configserver:8888"
-        EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
-        ENCRYPT_KEY:       "IMSYMMETRIC"
-      links:
-          - eurekaserver:discovery
+
+  consul:
+    image: consul:latest
+    command: agent -server -bootstrap -ui -node=node1 -client=0.0.0.0
+    ports:
+      - 8500:8500
+    volumes:
+      - /home/data/consul:/consul/data
 
 
+  keycloak:
+    image: jboss/keycloak
+    ports:
+      - 8901:8080
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_ADDR=database
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=k@ycl0ck
+      - DB_PORT=3306
+    links:
+      - database:database
+    depends_on:
+      - database
 
 
+  gatewaysvr:
+    image: coopersoft/cloud-gatewaysvr:snapshot
+    ports:
+      - "5555:5555"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "5555"
+      CONSULSERVER_PORT: 8500
+      CONSULSERVER_HOST: "consul"
+    depends_on:
+      - consul
+    links:
+      - consul:consul

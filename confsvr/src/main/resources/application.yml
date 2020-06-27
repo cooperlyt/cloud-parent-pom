@@ -9,5 +9,7 @@ spring:
         encrypt:
           enabled: false
         native:
-          searchLocations: classpath:config/,classpath:config/roomservice,classpath:config/zuulservice,classpath:config/authenticationservice,classpath:config/businesstemplateservice,classpath:config/archivesbusinessservice,classpath:config/joincorpservice,classpath:config/moneyaccountservice,classpath:config/moneybankservice,classpath:config/moneycorrectservice,classpath:config/moneymodifyservice,classpath:config/moneypayservice,classpath:config/developerservice,classpath:config/construct-attach-corp,classpath:config/construct-project,classpath:config/construct-project-cache,classpath:config/construct-fire,classpath:config/camundasvr,classpath:config/businessdefinesvr
+          searchLocations: file:///config/roomservice,file:///config/zuulservice,file:///config/authenticationservice,file:///config/businesstemplateservice,file:///config/archivesbusinessservice,file:///config/joincorpservice,file:///config/moneyaccountservice,file:///config/moneybankservice,file:///config/moneycorrectservice,file:///config/moneymodifyservice,file:///config/moneypayservice,file:///config/developerservice,file:///config/construct-attach-corp,file:///config/construct-project,file:///config/construct-project-cache,file:///config/construct-fire,file:///config/camundasvr,file:///config/businessdefinesvr
+
+#          classpath:config/,
 

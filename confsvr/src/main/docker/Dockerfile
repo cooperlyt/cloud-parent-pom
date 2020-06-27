@@ -12,6 +12,7 @@ RUN echo http://mirrors.ustc.edu.cn/alpine/v3.8/main > /etc/apk/repositories; \
 #    unzip jce_policy-8.zip && \
 #    rm jce_policy-8.zip && \
 #    yes |cp -v /tmp/UnlimitedJCEPolicyJDK8/*.jar /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/
+ADD config /
 ADD @project.build.finalName@.jar /usr/local/configserver/
 ADD run.sh run.sh
 RUN chmod +x run.sh
