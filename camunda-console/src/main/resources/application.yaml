@@ -1,0 +1,50 @@
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    cc.coopersoft: WARN
+
+server:
+  port: 18902
+
+
+camunda.bpm:
+  database:
+    schema-update: false
+    type: mariadb
+  webapp:
+    index-redirect-enabled: true
+#  admin-user:
+#    id: camunda
+#    password: Cooper&camunda
+#  authorization:
+#    enabled: true
+#  filter:
+#    create: All tasks
+
+spring:
+  application:
+    name: camunda-console
+  profiles:
+    active:
+      default
+  datasource:
+    initialization-mode: NEVER
+    testWhileIdle: "true"
+    validationQuery: "SELECT 1"
+    url: "jdbc:mysql://database:3306/camunda?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullDatabaseMeansCurrent=true&nullCatalogMeansCurrent=true"
+    username: "root"
+    password: "p0stgr@s"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+  jpa:
+    database: "MYSQL"
+    show-sql: "false"
+    hibernate:
+      naming:
+        physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+    properties:
+      hibernate:
+        ddl-auto: "none"
+        enable_lazy_load_no_trans: true
+        dialect: "org.hibernate.dialect.MySQL5Dialect"
+

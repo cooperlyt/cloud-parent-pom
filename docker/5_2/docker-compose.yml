@@ -2,24 +2,16 @@ version: '3'
 services:
   database:
       image: coopersoft/mariadb-min:v1
-#      restart: always
-#      command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
       ports:
         - "3306:3306"
       volumes:
-        - "/home/docker/data/db:/var/lib/mysql"
+        - "/home/data/db:/var/lib/mysql"
       environment:
-        - MYSQL_ROOT_PASSWORD=p0stgr@s
-        - MYSQL_DATABASE=keycloak
-        - MYSQL_USER=keycloak
-        - MYSQL_PASSWORD=k@ycl0ck
+        MYSQL_ROOT_PASSWORD: p0stgr@s
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: k@ycl0ck
         TZ: Asia/Shanghai
-#        - MYSQL_USER=testuser
-#        - MYSQL_PASSWORD=testpassword
-
-
-#        docker run --name mariadb_test -e MYSQL_ROOT_PASSWORD=my-secret=pw -d
-#        docker run -d --name mariadb_volume -P -v /data/Db/mariadb:/var/lib/mysql mariadb
 
   mediaservice:
     image: coopersoft/seaweedfs-media-service:stable2
@@ -92,13 +84,14 @@ services:
     ports:
       - 8901:8080
     environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - DB_ADDR=database
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=k@ycl0ck
-      - DB_PORT=3306
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: mariadb
+      DB_ADDR: database
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: k@ycl0ck
+      DB_PORT: 3306
     links:
       - database:database
     depends_on:
