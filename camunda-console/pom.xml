@@ -18,7 +18,7 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <camunda.spring.boot.starter.version>3.4.0</camunda.spring.boot.starter.version>
-        <start-class>cc.coopersoft.cloud.business.Application</start-class>
+        <start-class>cc.coopersoft.camunda.console.Application</start-class>
         <docker.image.name>coopersoft/camunda-console</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
     </properties>
